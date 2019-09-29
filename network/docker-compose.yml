@@ -73,7 +73,6 @@ services:
     # command: peer node start --peer-chaincodedev=true
     ports:
       - 7051:7051
-      - 7053:7053
     volumes:
         - /var/run/:/host/var/run/
         - ./crypto-config/peerOrganizations/xbank.worldbank.com/peers/peer0.xbank.worldbank.com/msp:/etc/hyperledger/msp/peer

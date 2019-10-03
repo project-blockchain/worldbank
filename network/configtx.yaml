@@ -381,8 +381,8 @@ Channel: &ChannelDefaults
 ################################################################################
 Profiles:
 
-    MultiOrgsOrdererGenesis:
-        <<: *3
+    OrdererGenesis:
+        <<: *ChannelDefaults
         Orderer:
             <<: *OrdererDefaults
             Organizations:
@@ -398,9 +398,14 @@ Profiles:
                     - *lnt
                     - *fedx
                     - *sebi
+            BankConsortium:
+                Organizations:
+                    - *xbank
+                    - *hdfc
+                    - *sebi
 
-    MultiOrgsChannel:
-        Consortium:0
+    CbtChannel:
+        Consortium: CBTConsortium
         <<: *ChannelDefaults
         Application:
             <<: *ApplicationDefaults
@@ -414,6 +419,20 @@ Profiles:
             Capabilities:
                 <<: *ApplicationCapabilities
 
+
+    BankChannel:
+        Consortium: BankConsortium
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                    - *xbank
+                    - *hdfc
+                    - *sebi
+            Capabilities:
+                <<: *ApplicationCapabilities
+
+    
     SampleDevModeKafka:
         <<: *ChannelDefaults
         Capabilities:

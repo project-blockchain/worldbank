@@ -9,10 +9,11 @@ const State = require('./../ledger-api/state.js');
 
 // Enumerate cross border transaction state values
 const cbtState = {
-    CREATED: 1,
+    REQUESTED: 1,
     INPROCESS: 2,
-    COMPLETED: 3,
-    FAILED: 4
+    DELIVERED: 3,
+    SUCCESSFUL: 4,
+    FAILED: 5
 };
 
 // enumerate for product state
@@ -20,34 +21,80 @@ const productState = {
     NOTREADY: 1,
     SUPPLIED: 2,
     TRANSPORTED: 3,
-    RECEIVED: 4
-};
-
-// enumerate for money state
-const monetaryState = {
-    SUPPLIER: 1,
-    SENDERBANK: 2,
-    RECEIVERBANK: 3,
-    RECEIVER: 4
+    DELIVERED: 4
 };
 
 /**
- * CommercialPaper class extends State class
- * Class will be used by application and smart contract to define a crocc border transaction object
+ * Cbt class extends State class
+ * Class will be used by application and smart contract to define a cross border transaction object
  */
 
- class Cbt extends State {
-     constructor(obj) {
-         super(Cbt.getClass(), [obj.requestorObj, obj.txnId]);
-         Object.assign(this, obj);
-     }
+class Cbt extends State {
+    constructor(obj) {
+        super(Cbt.getClass(), [obj.requesterObj.name, obj.txnId]);
+        Object.assign(this, obj);
+    }
 
     //  getters and setters
+    // 1. requesoter
 
-     
+    // 2. supplier
 
-    // methods to encapsulate CBT state
+    // 3. transporter
 
+    // 4. monetaryStatus
+    getmonetaryStatus() {
+        return this.monetaryStatus;
+    }
+    
+    setMoneratyStatus(to, from, amount) {
+        this.monetaryStatus.to = to;
+        this.monetaryStatus.from = from;
+        this.monetaryStatus.amount = amount;    
+    }
+
+    // 5. product status
+    setProductState(state) {
+        this.productStatus.productState = state;
+    }
+    setProductHolder(holder) {
+        this.productStatus.holder = holder;
+    }
+    setProductLocation(location) {
+        this.productStatus.location = location;
+    }
+    setProductStatus(state, holder, location) {
+        setProductState(state);
+        setProductHolder(holder);
+        setProductLocation(location);
+    }
+
+    // 6. transaction status
+    getTransactionState() {
+        return this.transactionStatus.transactionState;
+    }
+    getTransactionDescription() {
+        return this.transactionStatus.description;
+    }
+    getSupplierApproval(){
+        return this.transactionStatus.supplierApproval;
+    }
+    getReceiversBankApproval(){
+        return this.transactionStatus.receiversBankApproval;
+    }
+
+    setTransactionState(state) {
+        this.transactionStatus.transactionState = state;
+    }
+    setTransactionDescription(description) {
+        this.transactionStatus.description = description;
+    }
+    setSupplierApproval(value){
+        this.transactionStatus.supplierApproval = value;
+    }
+    setReceiversBankApproval(value){
+        this.transactionStatus.receiversBankApproval = value;
+    }
 
     /**
      * buffer convertors
@@ -70,9 +117,10 @@ const monetaryState = {
     }
 
     // Factory method to create cross border transaction object
-    static createInstance(txnId, requestorObj, supplierObj, productId, quantity, amount, TransporterObject){
-        return new Cbt({txnId, requestorObj, supplierObj, productId, quantity, amount, TransporterObject});
+    static createInstance(txnId, timeStamp, requesterObj, supplierObj, productObj, transporterObject, monetaryStatus, productStatus, transactionStatus){
+        return new Cbt({txnId, timeStamp, requesterObj, supplierObj, productObj, transporterObject, monetaryStatus, productStatus, transactionStatus});
     }
+
     static getClass() {
         return 'org.worldbank.cbt';
     }

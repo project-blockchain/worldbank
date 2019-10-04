@@ -22,4 +22,3 @@ rm -f docker-compose-e2e.yaml
 # VERIFY RESULTS
 docker ps -a
 docker volume ls
-ls -l

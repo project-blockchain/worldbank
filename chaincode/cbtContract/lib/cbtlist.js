@@ -16,16 +16,16 @@ class CbtList extends StateList {
         this.use(Cbt);
     }
 
-    async addRecord(record) {
-        return this.addState(record);
+    async addTransaction(cbtObj) {
+        return this.addState(cbtObj);
     }
 
-    async getRecord(recordKey) {
-        return this.getState(recordKey);
+    async getTransaction(cbtObjKey) {
+        return this.getState(cbtObjKey);
     }
 
-    async updateRecord(record) {
-        return this.updateState(record);
+    async updateTransaction(cbtObj) {
+        return this.updateState(cbtObj);
     }
 }
 

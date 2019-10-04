@@ -46,7 +46,7 @@ class BankAccountContract extends Contract {
     }
 
    /**
-    * 
+    * create new bank account for user
     * @param {Context} ctx 
     * @param {String} bankName 
     * @param {String} accountNo 
@@ -68,7 +68,7 @@ class BankAccountContract extends Contract {
     }
 
     /**
-     * 
+     * transfer fund between 2 bank accounts
      * @param {Context} ctx 
      * @param {String} senderBankName 
      * @param {String} senderAccountNo 
@@ -106,7 +106,13 @@ class BankAccountContract extends Contract {
         return senderBankAccount;       
     }
 
-    async viewBalance(bankName, bankAccountNo) {
+    /**
+     * view bank account balance
+     * @param {Context} ctx 
+     * @param {String} bankName 
+     * @param {String} bankAccountNo 
+     */
+    async viewBalance(ctx, bankName, bankAccountNo) {
         // ToDo: validate wheather bank have permission to transfer amount from senders account
 
         // retrieve the current bank account using key fields provided
@@ -114,7 +120,7 @@ class BankAccountContract extends Contract {
         let bankAccount = await ctx.bankAccountList.getBankAccount(bankAccountKey);
 
         // return serialized balace of account object
-        return bankAccount;
+        return String(bankAccount.balance);
 
     }
 }

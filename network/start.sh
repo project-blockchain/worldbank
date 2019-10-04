@@ -13,7 +13,7 @@ export FABRIC_CFG_PATH=$PWD
 # export channel name variable
 export CHANNEL_NAME=<your channel name>
 
-# create channel configuration transactioon
+# create channel configuration transaction
 ../bin/configtxgen -profile MultiOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID $CHANNEL_NAME 
 
 # define anchor peer for every Organization

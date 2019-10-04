@@ -407,6 +407,12 @@ Profiles:
     CbtChannel:
         Consortium: CBTConsortium
         <<: *ChannelDefaults
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
         Application:
             <<: *ApplicationDefaults
             Organizations:
@@ -423,6 +429,12 @@ Profiles:
     BankChannel:
         Consortium: BankConsortium
         <<: *ChannelDefaults
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
         Application:
             <<: *ApplicationDefaults
             Organizations:

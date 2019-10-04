@@ -65,10 +65,10 @@ class CbtContext extends Context {
         let cbtId = requesterObjJson.bankAccount.accountNo + timeStamp;
 
         // define transporterObj, monetaryStatus, productStatus, transactionStatus with null
-        let transporterObj = {"name": null, "address": null, "bank":{bankName: null, "accountNo": null}};
+        let transporterObj = {"name": null, "address": null, "bank":{"bankName": null, "accountNo": null}};
         let monetaryStatus = {"from": null, "to": null, "amount": null};
         let productStatus = {"status": null, "holder": null, "location": null};
-        let transactionStatus = {"state": 1, "description": "description", "supplierApproval":null, "receiversBankApproval":null};  // 1: REQUESTED
+        let transactionStatus = {"state": 1, "description": description, "supplierApproval":null, "receiversBankApproval":null};  // 1: REQUESTED
 
         let cbtObj = Cbt.createInstance(cbtId, timeStamp, requesterObj, supplierObj, productObj, transporterObj, monetaryStatus, productStatus, transactionStatus);
         

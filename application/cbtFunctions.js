@@ -23,7 +23,7 @@ const Connection = require('./connection.js');
 
 
 // Main program function
-async function createRequest(orgName, userName, secretKey, channelName, contractName) {
+async function requestTransaction(orgName, userName, secretKey, channelName, contractName) {
 
     // Main try/catch block
     try {

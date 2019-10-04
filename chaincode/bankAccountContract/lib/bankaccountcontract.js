@@ -68,7 +68,7 @@ class BankAccountContract extends Contract {
     }
 
     /**
-     * transfer fund between 2 bank accounts
+     * transfer fund between 2 accounts from same bank
      * @param {Context} ctx 
      * @param {String} senderBankName 
      * @param {String} senderAccountNo 
@@ -76,7 +76,46 @@ class BankAccountContract extends Contract {
      * @param {String} receiverAccountNo 
      * @param {String} amount 
      */
-    async transferFund(ctx, senderBankName, senderAccountNo, receiverBankName, receiverAccountNo, amount) {
+    async interBankFundTransfer(ctx, senderBankName, senderAccountNo, receiverBankName, receiverAccountNo, amount) {
+        // ToDo: validate wheather bank have permission to transfer amount from senders account
+
+        // retrieve senders accounts by key fields provided
+        let senderBankAccountKey = BankAccount.makeKey([senderBankName, senderAccountNo]);
+        let senderBankAccount = await ctx.bankAccountList.getBankAccount(senderBankAccountKey);
+
+        // retrieve receivers account by key fields provided
+        let receiverBankAccountKey = BankAccount.makeKey([receiverBankName, receiverAccountNo]);
+        let receiverBankAccount = await ctx.bankAccountList.getBankAccount(receiverBankAccountKey);
+
+        // check for senders sufficient balance
+        if(senderBankAccount.getBalance() < amount) {
+            throw new Error('sender do not have sufficient balance for transfer');
+        }
+
+        // transfer amount from sender to receiver
+        let newSenderBalance = String(Number(senderBankAccount.getBalance()) - Number(amount));
+        senderBankAccount.setBalance(newSenderBalance);
+        let newReceiverBalance = String(Number(receiverBankAccount.getBalance()) + Number(amount));
+        receiverBankAccount.setBalance(newReceiverBalance);
+        
+        // update both the accounts into world state
+        await ctx.bankAccountList.updateBankAccount(senderBankAccount);
+        await ctx.bankAccountList.updateBankAccount(receiverBankAccount);
+
+        // return senders bank account
+        return senderBankAccount;       
+    }
+    
+    /**
+     * transfer fund between 2 accounts from different bank
+     * @param {Context} ctx 
+     * @param {String} senderBankName 
+     * @param {String} senderAccountNo 
+     * @param {String} receiverBankName 
+     * @param {String} receiverAccountNo 
+     * @param {String} amount 
+     */
+    async otherBankFundTransfer(ctx, senderBankName, senderAccountNo, receiverBankName, receiverAccountNo, amount) {
         // ToDo: validate wheather bank have permission to transfer amount from senders account
 
         // retrieve senders accounts by key fields provided

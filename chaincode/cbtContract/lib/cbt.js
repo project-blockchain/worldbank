@@ -47,15 +47,25 @@ class Cbt extends State {
         return this.monetaryStatus;
     }
     
-    setMoneratyStatus(to, from, amount) {
+    setMonetaryStatus(to, from, amount) {
         this.monetaryStatus.to = to;
         this.monetaryStatus.from = from;
         this.monetaryStatus.amount = amount;    
     }
 
     // 5. product status
+    getProductState() {
+        return this.productStatus.state;
+    }
+    getProductHolder() {
+        return this.productStatus.holder;
+    }
+    getProductLocation() {
+        return this.productStatus.location;
+    }
+
     setProductState(state) {
-        this.productStatus.productState = state;
+        this.productStatus.state = state;
     }
     setProductHolder(holder) {
         this.productStatus.holder = holder;

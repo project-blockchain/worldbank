@@ -79,11 +79,12 @@ class CbtContext extends Context {
     /**
      * take approval from supplier for perticiuar transaction
      * @param {Context} ctx 
-     * @param {String} cbtId 
+     * @param {String} cbtObjKey 
      * @param {String} supplierApproval 
      * @param {String} transporterObj 
      * @param {String} productStatus 
      * @param {String} transactionState 
+     * @param {String} description 
      */
     async setProductSupplierApproval(ctx, cbtObjKey, supplierApproval, transporterObj, productStatus, transactionState, description) {
         
@@ -92,7 +93,7 @@ class CbtContext extends Context {
         
         // 2. check wheather cbtObj is present / Not
         if(cbtObj == null) {
-            throw new error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
+            throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
         }
         
 
@@ -100,7 +101,7 @@ class CbtContext extends Context {
         cbtObj.setSupplierApproval(supplierApproval);
         if(supplierApproval == false) {
             cbtObj.setTransactionDescription(description);
-            throw new error ('CBT with ID ' + cbtObjKey + ' rejected by supplier!');
+            throw new Error ('CBT with ID ' + cbtObjKey + ' rejected by supplier!');
         }
 
         // 4. update productStatus details
@@ -116,13 +117,15 @@ class CbtContext extends Context {
         return cbtObj;
 
     }
+
     
     /**
      * take approval from receiver's bank.
      * @param {Context} ctx 
      * @param {String} cbtObjKey 
-     * @param {String} transactionStatus 
+     * @param {String} monetaryStatus 
      * @param {String} receiversBankApproval 
+     * @param {String} description 
      */
     async setReceiversBankApproval(ctx, cbtObjKey, monetaryStatus, receiversBankApproval, description) {
         // 1. retrieve object associated with given cbtObjKey
@@ -130,12 +133,13 @@ class CbtContext extends Context {
         
         // 2. check wheather cbtObj is present / Not
         if(cbtObj == null) {
-            throw new error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
+            throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
         }
 
         // 3. check supplierApproval, if it is true then process forword
         // otherwise stop process 
         if(!cbtObj.getSupplierApproval()) {
+
             throw new Error('supplier is not approving for this transaction (' + cbtObjKey + '), status: transaction failed.');
         }
 
@@ -143,7 +147,8 @@ class CbtContext extends Context {
         cbtObj.setReceiversBankApproval(receiversBankApproval);
         if(receiversBankApproval == false) {
             cbtObj.setTransactionDescription(description);
-            throw new Error('receiver\'s bank is not approving for this transaction (' + cbtObjKey + '), status: transaction failed.');
+            // print log message
+            console.log('receiver\'s bank is not approving for this transaction (' + cbtObjKey + '), status: transaction failed.');
         }
 
         // 5. update monetaryStatus
@@ -152,17 +157,17 @@ class CbtContext extends Context {
         // 6. update transaction object into world state
         await ctx.cbtList.updateTransaction(cbtObj);
 
-        // 7. return modified object
+        // 7. return updated object
         return cbtObj;
     }
 
-    async productTransfer(ctx, cbtObjKey, from, to) {
+    async productTransfer(ctx, cbtObjKey, from, to, newLocation) {
         // 1. retrieve object associated with given cbtObjKey
         let cbtObj = await ctx.cbtList.getTransaction(cbtObjKey);
         
         // 2. check wheather cbtObj is present / Not
         if(cbtObj == null) {
-            throw new error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
+            throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
         }
 
         // 3. check bankApproval, if it is true then process forword
@@ -173,10 +178,14 @@ class CbtContext extends Context {
 
         // 4. update product status
         // 4.1 check wheather from party is a holder or not
-
+        if(cbtObj.getProductStatus.getHolder() != from) {
+            throw new Error('permission denied to update transfer product status, as this organization is not holding this product.');
+        }
         // 4.2 set new asset holder
+        cbtObj.setProductHolder(to);
 
         // 4.3 set new product location
+        cbtObj.setProductLocation(newLocation);
 
         // 5. update transaction object into world state
         await ctx.cbtList.updateTransaction(cbtObj);
@@ -185,8 +194,46 @@ class CbtContext extends Context {
         return cbtObj;
     }
 
-    async orderFulfillment(ctx, cbtObjKey, monetaryStatus, transactionStatus) {
-        // ToDo: complete this function ASAP
+    async updateProductDeliveryStatus(ctx, cbtObjKey, status) {
+        // 1. retrieve object associated with given cbtObjKey
+        let cbtObj = await ctx.cbtList.getTransaction(cbtObjKey);
+        
+        // 2. check wheather cbtObj is present / Not
+        if(cbtObj == null) {
+            throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
+        }
+
+        // 3. check previous product status
+        if(cbtObj.getProductState() == 3) {
+            // update product state
+            // if true then delivered, else do nothing
+            if(status) { cbtObj.setProductState(4); }
+        }
+    }
+
+    async orderFulfillment(ctx, cbtObjKey, monetaryStatus, transactionStatus, description) {
+        // 1. retrieve object associated with given cbtObjKey
+        let cbtObj = await ctx.cbtList.getTransaction(cbtObjKey);
+        
+        // 2. check wheather cbtObj is present / Not
+        if(cbtObj == null) {
+            throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
+        }
+
+        // 3. check wheather product is delivered / not
+        if(cbtObj.getProductState() != 4) {
+            throw new Error('product not delivered yet. order fulfillment call failed.');
+        }
+
+        // 4. fulfill the order
+        // 4.1 update monetary status : transfer amount from receiver's bank's pool account to product supplier's account.
+        cbtObj.setMonetaryStatus(monetaryStatus.to, monetaryStatus.from, monetaryStatus.amount);
+
+        // 4.2 update transaction status state
+        cbtObj.transactionStatus.setTransactionState(transactionStatus); 
+        
+        // 4.3 update transaction description
+        cbtObj.transactionStatus.setTransactionDescription(description);
     }
 
     async getCbt(ctx, cbtObjKey) {
@@ -195,7 +242,7 @@ class CbtContext extends Context {
         
         // 2. check wheather cbtId is present / Not
         if(cbtObj == null) {
-            throw new error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
+            throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
         }
 
         // 3. return Cbt object

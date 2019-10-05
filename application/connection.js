@@ -41,7 +41,7 @@ class Connection{
             const uName = userName+'@'+orgName+'.worldbank.com';
     
             // Load connection profile; will be used to locate a gateway
-            let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/networkConnection.yaml', 'utf8'));
+            let connectionProfile = yaml.safeLoad(fs.readFileSync('./../network/gateway/cbtNetConnection.yaml', 'utf8'));
     
             // Set connection options; identity and wallet
             let connectionOptions = {
@@ -56,12 +56,12 @@ class Connection{
             await gateway.connect(connectionProfile, connectionOptions);
     
             // Access PaperNet network
-            console.log('Use network channel: mychannel.');
+            console.log(`Use network channel. ${channelName}`);
     
             const network = await gateway.getNetwork(channelName);
     
             // Get addressability to commercial paper contract
-            console.log('Use org.papernet.commercialpaper smart contract.');
+            console.log(`Use org.worldbank.${contractName} smart contract.`);
     
             const contract = await network.getContract(contractName);
     

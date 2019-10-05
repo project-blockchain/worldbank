@@ -8,7 +8,6 @@
 const fs = require('fs');
 const { FileSystemWallet, X509WalletMixin } = require('fabric-network');
 const path = require('path');
-
 const fixtures = path.resolve(__dirname, '../network');
 
 // A wallet stores a collection of identities
@@ -29,7 +28,7 @@ class WalletSetup{
             const identityLabel = userName+'@'+orgName+'.worldbank.com';
             const identity = X509WalletMixin.createIdentity(orgName+'MSP', cert, key);
     
-            await wallet.import(identityLabel, identity);
+            wallet.import(identityLabel, identity);
     
         } catch (error) {
             console.log(`Error adding to wallet. ${error}`);
@@ -37,5 +36,4 @@ class WalletSetup{
         }
     }
 }
-
 module.exports = WalletSetup;

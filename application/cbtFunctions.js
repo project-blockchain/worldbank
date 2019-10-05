@@ -33,14 +33,14 @@ async function requestTransaction(orgName, userName, secretKey, channelName, con
         
         // sample for calling contract function
         console.log('Submit commercial paper issue transaction.');
-        const issueResponse = await contract.submitTransaction('issue', 'MagnetoCorp', '00001', '2020-05-31', '2020-11-30', '5000000');
+        const issueResponse = await contract.submitTransaction('getCbt', 'shubham', '112345');
 
         // process response
         console.log('Process issue transaction response.'+issueResponse);
-        let cbt = Cbt.fromBuffer(issueResponse);
+        //let cbt = Cbt.fromBuffer(issueResponse);
 
         // return response to user
-        console.log(`${cbt.issuer} commercial paper : ${cbt.paperNumber} successfully issued for value ${paper.faceValue}`);
+        //console.log(`${cbt.issuer} commercial paper : ${cbt.paperNumber} successfully issued for value ${paper.faceValue}`);
         console.log('Transaction complete.');
 
     } catch (error) {
@@ -53,5 +53,18 @@ async function requestTransaction(orgName, userName, secretKey, channelName, con
         gateway.disconnect();
     }
 }
+
+requestTransaction().then(() => {
+
+    console.log('requestTransaction program complete.');
+
+}).catch((e) => {
+
+    console.log('requestTransaction program exception.');
+    console.log(e);
+    console.log(e.stack);
+    process.exit(-1);
+
+});
 
 

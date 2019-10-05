@@ -54,18 +54,18 @@ class CbtContext extends Context {
      * @param {String} description 
      */
     async requestTransaction(ctx, requesterObj, supplierObj, productObj, description) {
-
-        // parse all objects
-        requesterObjJson = JSON.parse(requesterObj);
-        supplierObjJson = JSON.parse(supplierObj);
-        productObjJson = JSON.parse(productObj);
         
+        // parse all JSON string to JSON object
+        requesterObj = JSON.parse(requesterObj);
+
         // 1. generate key = userId + timestamp
-        let timeStamp = String(new Date().getTime());
-        let cbtId = requesterObjJson.bankAccount.accountNo + timeStamp;
+        let timeStamp = "12345";
+        console.log(typeof requesterObj);
+        let cbtId = requesterObj.bankAccount.accountNo + timeStamp;
 
         // define transporterObj, monetaryStatus, productStatus, transactionStatus with null
-        let transporterObj = {"name": null, "address": null, "bank":{"bankName": null, "accountNo": null}};
+        supplierObj = {"name": null, "address": null, "bankAccount": {"bankName": null, "accountNo": null}}
+        let transporterObj = {"name": null, "address": null, "bankAccount": {"bankName": null, "accountNo": null}};
         let monetaryStatus = {"from": null, "to": null, "amount": null};
         let productStatus = {"status": null, "holder": null, "location": null};
         let transactionStatus = {"state": 1, "description": description, "supplierApproval":null, "receiversBankApproval":null};  // 1: REQUESTED
@@ -236,16 +236,21 @@ class CbtContext extends Context {
         cbtObj.transactionStatus.setTransactionDescription(description);
     }
 
-    async getCbt(ctx, cbtObjKey) {
+    async getCbt(ctx, name, txnId) {
         // 1. retrieve object associated with given cbtObjKey
+        let cbtObjKey = Cbt.makeKey([name, txnId]);
+        console.log(`original cbt object key: ${cbtObjKey} type: ${typeof cbtObjKey}`);
+
         let cbtObj = await ctx.cbtList.getTransaction(cbtObjKey);
         
         // 2. check wheather cbtId is present / Not
         if(cbtObj == null) {
             throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
         }
-
-        // 3. return Cbt object
+        
+        // parse object into string
+        let result = `name: ${cbtObj.requesterObj.name} address : ${cbtObj.requesterObj.address}`;
+        console.log(cbtObj);
         return cbtObj;
     }
 }

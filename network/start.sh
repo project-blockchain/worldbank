@@ -36,23 +36,23 @@ peer channel join -b <channel_name>.block
 
 
 # Update the channel definition to define the anchor peer for Organizations in network
- peer channel update -o orderer.worldbank.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/Org1MSPanchors.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem
+peer channel update -o orderer.worldbank.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/Org1MSPanchors.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem
 
 
 #  package the chaincode before installing [ for node js chaincode ]
 # 1. for lifecycle V2 alpha
 peer lifecycle chaincode package mycc.tar.gz --path /opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode/abstore/node/ --lang node --label mycc_1
 #2. for V1.4
-peer chaincode install -n c2 -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/node/src/
+peer chaincode install -n cbtcc -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/
 
 # instantiate chaincode 
-peer chaincode instantiate -o orderer.worldbank.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' -P "OR ('xbankMSP.peer','hdfcMSP.peer')"
+peer chaincode instantiate -o orderer.worldbank.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n cbtcc11 -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' -P "OR ('xbankMSP.peer','hdfcMSP.peer')"
 
 # query chaincode
 peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","a"]}'
 
 # invoke chaincode
 #1
-peer chaincode invoke -o orderer.worldbank.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n mycc --peerAddresses peer0.xbank.worldbank.com:9001 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/xbank.worldbank.com/peers/peer0.xbank.worldbank.com/tls/ca.crt --peerAddresses peer0.hdfc.worldbank.com:9011 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/hdfc.worldbank.com/peers/peer0.hdfc.worldbank.com/tls/ca.crt -c '{"Args":["invoke","a","b","10"]}'
+peer chaincode invoke -o orderer.worldbank.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n cbtcc16 -c '{"Args": }'
 #2
-peer chaincode invoke -o orderer.worldbank.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n bacc --peerAddresses peer0.xbank.worldbank.com:9001 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/xbank.worldbank.com/peers/peer0.xbank.worldbank.com/tls/ca.crt --peerAddresses peer0.hdfc.worldbank.com:9011 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/hdfc.worldbank.com/peers/peer0.hdfc.worldbank.com/tls/ca.crt -c '{"Args":["createAccount", "hdfc", "1", "asdf", "300"]}'
+peer chaincode invoke -o orderer.worldbank.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n cbtcc9 --peerAddresses peer0.xbank.worldbank.com:9001 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/xbank.worldbank.com/peers/peer0.xbank.worldbank.com/tls/ca.crt --peerAddresses peer0.hdfc.worldbank.com:9011 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/hdfc.worldbank.com/peers/peer0.hdfc.worldbank.com/tls/ca.crt -c '{"Args": }'

@@ -24,11 +24,10 @@ const { FileSystemWallet, Gateway } = require('fabric-network');
 // Main program function
 class Connection{
 
-    connection(orgName, userName, channelName, contractName) {
+    static connection(orgName, userName, channelName, contractName) {
 
         //access to wallet for credentials
         const wallet = new FileSystemWallet('./identity/'+orgName+'/'+userName+'/'+'wallet');
-    
     
         // A gateway defines the peers used to access Fabric networks
         const gateway = new Gateway();
@@ -53,17 +52,17 @@ class Connection{
             // Connect to gateway using application specified parameters
             console.log('Connect to Fabric gateway.');
     
-            await gateway.connect(connectionProfile, connectionOptions);
+            gateway.connect(connectionProfile, connectionOptions);
     
             // Access PaperNet network
             console.log(`Use network channel. ${channelName}`);
     
-            const network = await gateway.getNetwork(channelName);
+            const network = gateway.getNetwork(channelName);
     
             // Get addressability to commercial paper contract
             console.log(`Use org.worldbank.${contractName} smart contract.`);
     
-            const contract = await network.getContract(contractName);
+            const contract = network.getContract(contractName);
     
             return contract;
     

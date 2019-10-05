@@ -15,15 +15,13 @@ SPDX-License-Identifier: Apache-2.0
 'use strict';
 
 // Bring key classes into scope, most importantly Fabric SDK network class
-const fs = require('fs');
-const yaml = require('js-yaml');
-const { FileSystemWallet, Gateway } = require('fabric-network');
+
 const Cbt = require('../chaincode/cbtContract/lib/cbt.js');
 const Connection = require('./connection.js');
-
+const yaml = require('js-yaml');
 
 // Main program function
-async function requestTransaction(orgName, userName, secretKey, channelName, contractName) {
+async function requestTransaction(orgName, userName, secretKey, channelName, contractName, fun_inputList) {
 
     // Main try/catch block
     try {
@@ -32,8 +30,8 @@ async function requestTransaction(orgName, userName, secretKey, channelName, con
         const contract = Connection.connection(orgName, userName, channelName, contractName);
         
         // sample for calling contract function
-        console.log('Submit commercial paper issue transaction.');
-        const issueResponse = await contract.submitTransaction('getCbt', 'shubham', '112345');
+        console.log('Submit CBT getCbt transaction.');
+        const issueResponse = await contract.submitTransaction(fun_inputList);
 
         // process response
         console.log('Process issue transaction response.'+issueResponse);
@@ -47,14 +45,10 @@ async function requestTransaction(orgName, userName, secretKey, channelName, con
         console.log(`Error processing transaction. ${error}`);
         console.log(error.stack);
 
-    } finally {
-        // Disconnect from the gateway
-        console.log('Disconnect from Fabric gateway.');
-        gateway.disconnect();
     }
 }
 
-requestTransaction().then(() => {
+requestTransaction("xbank", "User1", "63b280ba700882d0cc4988a22013c9ead583f741accda16a167d24e2b9c490cd", "cbtchannel", "cbt", ['getCbt', 'shubham', '112345']).then(() => {
 
     console.log('requestTransaction program complete.');
 

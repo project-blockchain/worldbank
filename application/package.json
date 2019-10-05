@@ -1,49 +1,21 @@
 {
-    "name": "chaincode",
-    "version": "0.0.3",
-    "description": "worldbank Contract",
-    "main": "index.js",
-    "engines": {
-        "node": ">=8",
-        "npm": ">=5"
-    },
-    "scripts": {
-        "lint": "eslint .",
-        "pretest": "npm run lint",
-        "test": "nyc mocha test --recursive",
-        "start": "fabric-chaincode-node start",
-        "mocha": "mocha test --recursive"
-    },
-    "engineStrict": true,
-    "author": "hyperledger",
-    "license": "Apache-2.0",
-    "dependencies": {
-        "fabric-contract-api": "~1.4.0",
-        "fabric-shim": "~1.4.0"
-    },
-    "devDependencies": {
-        "chai": "^4.1.2",
-        "chai-as-promised": "^7.1.1",
-        "eslint": "^4.19.1",
-        "mocha": "^5.2.0",
-        "nyc": "^14.1.1",
-        "sinon": "^6.0.0",
-        "sinon-chai": "^3.2.0"
-    },
-    "nyc": {
-        "exclude": [
-            "coverage/**",
-            "test/**"
-        ],
-        "reporter": [
-            "text-summary",
-            "html"
-        ],
-        "all": true,
-        "check-coverage": true,
-        "statements": 100,
-        "branches": 100,
-        "functions": 100,
-        "lines": 100
-    }
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cbtFunction.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "rm -rf _idwallet && node addToWallet.js && node issue.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fabric-network": "~1.4.0",
+    "fabric-client": "~1.4.0",
+    "js-yaml": "^3.13.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.6.0"
+  }
 }

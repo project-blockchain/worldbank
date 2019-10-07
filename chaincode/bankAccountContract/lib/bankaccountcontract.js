@@ -24,7 +24,7 @@ class BankAccountContext extends Context {
 
 class BankAccountContract extends Contract {
     constructor() {
-        // unique name when multiple contracts per chaincode file
+        // unique userName when multiple contracts per chaincode file
         super('org.worldbank.bankaccount');
     }
 
@@ -50,12 +50,12 @@ class BankAccountContract extends Contract {
     * @param {Context} ctx 
     * @param {String} bankName 
     * @param {String} accountNo 
-    * @param {String} name 
+    * @param {String} userName 
     * @param {String} balance 
     */
-    async createAccount(ctx, bankName, accountNo, name, balance) {
+    async createAccount(ctx, bankName, accountNo, userName, balance) {
         // create an instance of BankAccount
-        let bankAccount = BankAccount.createInstance(bankName, accountNo, name, balance);
+        let bankAccount = BankAccount.createInstance(bankName, accountNo, userName, balance);
 
         // activate account
         bankAccount.activateAccount();

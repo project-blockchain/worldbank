@@ -1,0 +1,90 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+volumes:
+  orderer.worldbank.com:
+  peer0.xbank.worldbank.com:
+  peer0.hdfc.worldbank.com:
+  peer0.tatasteel.worldbank.com:
+  peer0.lnt.worldbank.com:
+  peer0.fedx.worldbank.com:
+  peer0.sebi.worldbank.com:
+  
+networks:
+  worldbank:
+
+services:
+  orderer.worldbank.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer.worldbank.com
+    container_name: orderer.worldbank.com
+    networks:
+      - worldbank
+
+  peer0.xbank.worldbank.com:
+    container_name: peer0.xbank.worldbank.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.xbank.worldbank.com
+    networks:
+      - worldbank
+
+  peer0.hdfc.worldbank.com:
+    container_name: peer0.hdfc.worldbank.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.hdfc.worldbank.com
+    networks:
+      - worldbank
+
+  peer0.tatasteel.worldbank.com:
+    container_name: peer0.tatasteel.worldbank.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.tatasteel.worldbank.com
+    networks:
+      - worldbank
+
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:$IMAGE_TAG
+    tty: true
+    stdin_open: true
+    environment:
+      - SYS_CHANNEL=$SYS_CHANNEL
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=cli
+      - CORE_PEER_ADDRESS=peer0.xbank.worldbank.com:9001
+      - CORE_PEER_LOCALMSPID=xbankMSP
+      # - CORE_PEER_TLS_ENABLED=true
+      # - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/xbank.worldbank.com/peers/peer0.xbank.worldbank.com/tls/server.crt
+      # - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/xbank.worldbank.com/peers/peer0.xbank.worldbank.com/tls/server.key
+      # - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/xbank.worldbank.com/peers/peer0.xbank.worldbank.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/xbank.worldbank.com/users/Admin@xbank.worldbank.com/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./../chaincode/:/opt/gopath/src/github.com/chaincode
+        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - orderer.worldbank.com
+      - peer0.xbank.worldbank.com
+      - peer0.hdfc.worldbank.com
+      - peer0.tatasteel.worldbank.com
+      - peer0.lnt.worldbank.com
+      - peer0.fedx.worldbank.com
+      - peer0.sebi.worldbank.com
+
+    networks:
+      - worldbank

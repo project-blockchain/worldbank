@@ -28,11 +28,6 @@ version: "1.0"
 
 client:
   organization: xbank
-  organization: hdfc
-  organization: tatasteel
-  organization: lnt
-  organization: fedx
-  organization: sebi
 
 #
 # [Optional]. But most apps would have this section so that channel objects can be constructed
@@ -115,7 +110,7 @@ channels:
         ledgerQuery: true
         eventSource: true
 
-    peer0.hdfc.worldbank.com:
+      peer0.hdfc.worldbank.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
@@ -190,37 +185,37 @@ peers:
 
     grpcOptions:
       ssl-target-name-override: peer0.xbank.worldbank.com
-      request-timeout: 120001
+      request-timeout: 120
   
   peer0.hdfc.worldbank.com:
     url: grpc://localhost:9011
     grpcOptions:
       ssl-target-name-override: peer0.hdfc.worldbank.com
-      request-timeout: 120001
+      request-timeout: 120
   
   peer0.tatasteel.worldbank.com:
     url: grpc://localhost:9021
     grpcOptions:
       ssl-target-name-override: peer0.tatasteel.worldbank.com
-      request-timeout: 120001
+      request-timeout: 120
   
   peer0.lnt.worldbank.com:
     url: grpc://localhost:9031
     grpcOptions:
       ssl-target-name-override: peer0.lnt.worldbank.com
-      request-timeout: 120001
+      request-timeout: 120
 
   peer0.fedx.worldbank.com:
     url: grpc://localhost:9041
     grpcOptions:
       ssl-target-name-override: peer0.fedx.worldbank.com
-      request-timeout: 120001
+      request-timeout: 120
 
   peer0.sebi.worldbank.com:
     url: grpc://localhost:9051
     grpcOptions:
       ssl-target-name-override: peer0.sebi.worldbank.com
-      request-timeout: 120001
+      request-timeout: 120
 
 
 # Fabric-CA is a special kind of Certificate Authority provided by Hyperledger Fabric which allows

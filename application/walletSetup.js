@@ -8,18 +8,15 @@
 const fs = require('fs');
 const { FileSystemWallet, X509WalletMixin } = require('fabric-network');
 const path = require('path');
-
 const fixtures = path.resolve(__dirname, '../network');
 
 // A wallet stores a collection of identities
 class WalletSetup{
-    walletSetup(orgName, userName, secretKey) {
-
-        const wallet = new FileSystemWallet('./identity/'+orgName+'/'+userName+'/'+'wallet');
+    static walletSetup(orgName, userName, secretKey) {
     
         // Main try/catch block
         try {
-    
+            const wallet = new FileSystemWallet('./identity/'+orgName+'/'+userName+'/'+'wallet');
             // Identity to credentials to be stored in the wallet
             const credPath = path.join(fixtures, '/crypto-config/peerOrganizations/'+orgName+'.worldbank.com/users/'+userName+'@'+orgName+'.worldbank.com');
             const cert = fs.readFileSync(path.join(credPath, '/msp/signcerts/'+userName+'@'+orgName+'.worldbank.com-cert.pem')).toString();
@@ -29,7 +26,7 @@ class WalletSetup{
             const identityLabel = userName+'@'+orgName+'.worldbank.com';
             const identity = X509WalletMixin.createIdentity(orgName+'MSP', cert, key);
     
-            await wallet.import(identityLabel, identity);
+            wallet.import(identityLabel, identity);
     
         } catch (error) {
             console.log(`Error adding to wallet. ${error}`);
@@ -37,5 +34,4 @@ class WalletSetup{
         }
     }
 }
-
 module.exports = WalletSetup;

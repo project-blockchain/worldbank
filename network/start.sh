@@ -14,10 +14,10 @@ export FABRIC_CFG_PATH=$PWD
 export CHANNEL_NAME=<your channel name>
 
 # create channel configuration transaction
-../bin/configtxgen -profile MultiOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID $CHANNEL_NAME 
+../bin/configtxgen -profile CbtChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID $CHANNEL_NAME 
 
 # define anchor peer for every Organization
-../bin/configtxgen -profile MultiOrgsChannel -channelID $CHANNEL_NAME -outputAnchorPeersUpdate ./channel-artifacts/xbankMSPanchors.tx -asOrg xbankMSP
+../bin/configtxgen -profile CbtChannel -channelID $CHANNEL_NAME -outputAnchorPeersUpdate ./channel-artifacts/xbankMSPanchors.tx -asOrg xbankMSP
 
 # let’s start our network:
 docker-compose -f docker-compose-cli.yaml up
@@ -30,13 +30,15 @@ docker exec -it cli bash
 
 # create channel 
 peer channel create -o orderer.worldbank.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem
+peer channel create -o orderer.worldbank.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx
 
 # join channel
 peer channel join -b <channel_name>.block
 
 
 # Update the channel definition to define the anchor peer for Organizations in network
- peer channel update -o orderer.worldbank.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/Org1MSPanchors.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem
+peer channel update -o orderer.worldbank.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/Org1MSPanchors.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem
+peer channel update -o orderer.worldbank.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/Org1MSPanchors.tx
 
 
 #  package the chaincode before installing [ for node js chaincode ]
@@ -44,15 +46,20 @@ peer channel join -b <channel_name>.block
 peer lifecycle chaincode package mycc.tar.gz --path /opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode/abstore/node/ --lang node --label mycc_1
 #2. for V1.4
 peer chaincode install -n c2 -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/node/src/
+peer chaincode install -n cbt14 -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/cbtContract/
+
+# export channel name
+export CHANNEL_NAME=cbtchannel
 
 # instantiate chaincode 
-peer chaincode instantiate -o orderer.worldbank.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' -P "OR ('xbankMSP.peer','hdfcMSP.peer')"
+peer chaincode instantiate -o orderer.worldbank.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n cbtcc -v 1.0 -c '{"Args": }' -P "OR ('xbankMSP.peer','hdfcMSP.peer')"
+peer chaincode instantiate -o orderer.worldbank.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n cbtcc -v 1.0 -c '{"Args": ["org.worldbank.cbt:instantiate"]}'
+peer chaincode instantiate -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n cbt14 -v 1.0 -c '{"Args": ["org.worldbank.cbt:instantiate"]}'
 
 # query chaincode
 peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","a"]}'
 
 # invoke chaincode
-#1
-peer chaincode invoke -o orderer.worldbank.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n mycc --peerAddresses peer0.xbank.worldbank.com:9001 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/xbank.worldbank.com/peers/peer0.xbank.worldbank.com/tls/ca.crt --peerAddresses peer0.hdfc.worldbank.com:9011 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/hdfc.worldbank.com/peers/peer0.hdfc.worldbank.com/tls/ca.crt -c '{"Args":["invoke","a","b","10"]}'
-#2
-peer chaincode invoke -o orderer.worldbank.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n bacc --peerAddresses peer0.xbank.worldbank.com:9001 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/xbank.worldbank.com/peers/peer0.xbank.worldbank.com/tls/ca.crt --peerAddresses peer0.hdfc.worldbank.com:9011 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/hdfc.worldbank.com/peers/peer0.hdfc.worldbank.com/tls/ca.crt -c '{"Args":["createAccount", "hdfc", "1", "asdf", "300"]}'
+peer chaincode invoke -o orderer.worldbank.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n cbtcc14 -c '{"Args": }'
+peer chaincode invoke -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n cbt14 -c '{"Args": }'
+peer chaincode invoke -o orderer.worldbank.com:7050  -C $CHANNEL_NAME -n cbt14 -c '{"Args": ["getCbt", "rohit", "112345"]}'

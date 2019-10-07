@@ -26,81 +26,100 @@ class CbtContext extends Context {
 /**
  * Define cross border transaction smart contract by extending Fabric Contract class
  */
- class CbtContract extends Contract{
-     constructor() {
+class CbtContract extends Contract{
+    constructor() {
         // Unique name when multiple contracts per chaincode file
-         super('org.worldbank.cbt');
-     }
+        super('org.worldbank.cbt');
+    }
 
     //  define custom context for CBT
-     createContext() {
-         return new CbtContext();
-     }
+    createContext() {
+        return new CbtContext();
+    }
 
     /**
     * instiantiate to perform any setup of the ledger that might be required.
     * @param {Context} ctx the transaction Context
     */ 
     async instantiate(ctx) {
-         console.log('instantiate the contract');
-     }
+        console.log('instantiate the contract');
+    }
 
+    
     /**
      * create new transaction request by creating new CBT object
      * @param {Context} ctx 
+     * @param {String} timeStamp 
      * @param {String} requesterObj 
      * @param {String} supplierObj 
      * @param {String} productObj 
      * @param {String} description 
-     */
-    async requestTransaction(ctx, requesterObj, supplierObj, productObj, description) {
+     */ 
+    async requestTransaction(ctx, timeStamp, requesterObj, supplierObj, productObj, description) {
+        // parse all JSON string to JSON object
+        requesterObj = JSON.parse(requesterObj);
+        console.log(typeof requesterObj);
 
-        // parse all objects
-        requesterObjJson = JSON.parse(requesterObj);
-        supplierObjJson = JSON.parse(supplierObj);
-        productObjJson = JSON.parse(productObj);
-        
         // 1. generate key = userId + timestamp
-        let timeStamp = String(new Date().getTime());
-        let cbtId = requesterObjJson.bankAccount.accountNo + timeStamp;
+        let cbtId = requesterObj.bankAccount.accountNo + timeStamp;
+
+        if(supplierObj == null){
+            throw new Error ('atleast 1 supplier details are required  for CBT.');
+        }
+        else{ supplierObj = JSON.parse(supplierObj); }
+
+        if(productObj == null){
+            throw new Error ('atleast 1 product details are required  for CBT.');
+        }
+        else{ productObj = JSON.parse(productObj); }
 
         // define transporterObj, monetaryStatus, productStatus, transactionStatus with null
-        let transporterObj = {"name": null, "address": null, "bank":{"bankName": null, "accountNo": null}};
+        let transporterObj = {"id": null, "name": null, "address": null, "charges": null};
         let monetaryStatus = {"from": null, "to": null, "amount": null};
-        let productStatus = {"status": null, "holder": null, "location": null};
+        let productStatus = {"state": null, "holder": null, "location": null};
         let transactionStatus = {"state": 1, "description": description, "supplierApproval":null, "receiversBankApproval":null};  // 1: REQUESTED
 
         let cbtObj = Cbt.createInstance(cbtId, timeStamp, requesterObj, supplierObj, productObj, transporterObj, monetaryStatus, productStatus, transactionStatus);
-        
+        if(cbtObj != null){ console.log('new transaction request created successfully.'); }
+
+        // add into world state
         await ctx.cbtList.addTransaction(cbtObj);
+
+        // return created object as Response
         return cbtObj;
     }
 
     /**
-     * take approval from supplier for perticiuar transaction
+     * function to take approval from supplier for perticiuar transaction
      * @param {Context} ctx 
-     * @param {String} cbtObjKey 
+     * @param {String} name 
+     * @param {String} txnId 
      * @param {String} supplierApproval 
      * @param {String} transporterObj 
      * @param {String} productStatus 
      * @param {String} transactionState 
      * @param {String} description 
      */
-    async setProductSupplierApproval(ctx, cbtObjKey, supplierApproval, transporterObj, productStatus, transactionState, description) {
+    async setProductSupplierApproval(ctx, name, txnId, supplierApproval, transporterObj, productStatus, transactionState, description) {
         
         // 1. retrieve object associated with given cbtObjKey
+        let cbtObjKey = Cbt.makeKey([name, txnId]);
         let cbtObj = await ctx.cbtList.getTransaction(cbtObjKey);
         
         // 2. check wheather cbtObj is present / Not
         if(cbtObj == null) {
             throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
         }
-        
 
+        // parse all JSON string to JSON object
+        transporterObj = JSON.parse(transporterObj);
+        productStatus = JSON.parse(productStatus);
+        
         // 3. update transaction status to : inProcess and supplierApproval = true
         cbtObj.setSupplierApproval(supplierApproval);
-        if(supplierApproval == false) {
-            cbtObj.setTransactionDescription(description);
+        cbtObj.setTransactionDescription(description);
+        
+        if(supplierApproval == "false") {
             throw new Error ('CBT with ID ' + cbtObjKey + ' rejected by supplier!');
         }
 
@@ -108,27 +127,30 @@ class CbtContext extends Context {
         cbtObj.setProductStatus(productStatus.state, productStatus.holder, productStatus.location);
 
         // 5. update transporterObj details
+        cbtObj.setTransporterObject(transporterObj.id, transporterObj.name, transporterObj.address, transporterObj.charges);
 
+        // 6. update transaction state
+        cbtObj.setTransactionState(transactionState);
 
-        // 6. update transaction object into world state
+        // 7. update transaction object into world state
         await ctx.cbtList.updateTransaction(cbtObj);
 
-        // 7. return modified object
+        // 8. return updated object as a response
         return cbtObj;
-
     }
 
-    
-    /**
-     * take approval from receiver's bank.
-     * @param {Context} ctx 
-     * @param {String} cbtObjKey 
-     * @param {String} monetaryStatus 
-     * @param {String} receiversBankApproval 
-     * @param {String} description 
-     */
-    async setReceiversBankApproval(ctx, cbtObjKey, monetaryStatus, receiversBankApproval, description) {
+     /**
+      * take approval from receiver's bank.
+      * @param {Context} ctx 
+      * @param {String} name 
+      * @param {String} txnId 
+      * @param {String} monetaryStatus 
+      * @param {String} receiversBankApproval 
+      * @param {String} description 
+      */
+    async setReceiversBankApproval(ctx, name, txnId, monetaryStatus, receiversBankApproval, description) {
         // 1. retrieve object associated with given cbtObjKey
+        let cbtObjKey = Cbt.makeKey([name, txnId]);
         let cbtObj = await ctx.cbtList.getTransaction(cbtObjKey);
         
         // 2. check wheather cbtObj is present / Not
@@ -136,23 +158,27 @@ class CbtContext extends Context {
             throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
         }
 
+        // parse all JSON string to JSON object
+        monetaryStatus = JSON.parse(monetaryStatus);
+
+
         // 3. check supplierApproval, if it is true then process forword
         // otherwise stop process 
-        if(!cbtObj.getSupplierApproval()) {
+        if(cbtObj.getSupplierApproval() == "false") {
 
-            throw new Error('supplier is not approving for this transaction (' + cbtObjKey + '), status: transaction failed.');
+            throw new Error('supplier did not approved for this transaction (' + cbtObjKey + '), status: transaction failed.');
         }
 
         // 4. bank will decide this option after amount transaction from client bank account to bank's pool account
         cbtObj.setReceiversBankApproval(receiversBankApproval);
-        if(receiversBankApproval == false) {
+        if(receiversBankApproval == "false") {
             cbtObj.setTransactionDescription(description);
             // print log message
             console.log('receiver\'s bank is not approving for this transaction (' + cbtObjKey + '), status: transaction failed.');
         }
 
         // 5. update monetaryStatus
-        cbtObj.setMonetaryStatus(monetaryStatus.to, monetaryStatus.from, monetaryStatus.value);
+        cbtObj.setMonetaryStatus(monetaryStatus.to, monetaryStatus.from, monetaryStatus.amount);
 
         // 6. update transaction object into world state
         await ctx.cbtList.updateTransaction(cbtObj);
@@ -161,8 +187,18 @@ class CbtContext extends Context {
         return cbtObj;
     }
 
-    async productTransfer(ctx, cbtObjKey, from, to, newLocation) {
+    /**
+     * function to transfer product from 1 location to another
+     * @param {Context} ctx 
+     * @param {String} name 
+     * @param {String} txnId 
+     * @param {String} from 
+     * @param {String} to 
+     * @param {String} newLocation 
+     */
+    async productTransfer(ctx, name, txnId, from, to, newLocation, state) {
         // 1. retrieve object associated with given cbtObjKey
+        let cbtObjKey = Cbt.makeKey([name, txnId]);
         let cbtObj = await ctx.cbtList.getTransaction(cbtObjKey);
         
         // 2. check wheather cbtObj is present / Not
@@ -178,7 +214,7 @@ class CbtContext extends Context {
 
         // 4. update product status
         // 4.1 check wheather from party is a holder or not
-        if(cbtObj.getProductStatus.getHolder() != from) {
+        if(cbtObj.getProductHolder() != from) {
             throw new Error('permission denied to update transfer product status, as this organization is not holding this product.');
         }
         // 4.2 set new asset holder
@@ -187,6 +223,9 @@ class CbtContext extends Context {
         // 4.3 set new product location
         cbtObj.setProductLocation(newLocation);
 
+        // 4.4 update product state
+        if(state == "3"){ cbtObj.setProductState(3); }
+
         // 5. update transaction object into world state
         await ctx.cbtList.updateTransaction(cbtObj);
 
@@ -194,8 +233,16 @@ class CbtContext extends Context {
         return cbtObj;
     }
 
-    async updateProductDeliveryStatus(ctx, cbtObjKey, status) {
+    /**
+     * update product delivery status
+     * @param {Context} ctx 
+     * @param {String} name 
+     * @param {String} txnId 
+     * @param {String} status 
+     */
+    async updateProductDeliveryStatus(ctx, name, txnId, status, description) {
         // 1. retrieve object associated with given cbtObjKey
+        let cbtObjKey = Cbt.makeKey([name, txnId]);
         let cbtObj = await ctx.cbtList.getTransaction(cbtObjKey);
         
         // 2. check wheather cbtObj is present / Not
@@ -207,12 +254,31 @@ class CbtContext extends Context {
         if(cbtObj.getProductState() == 3) {
             // update product state
             // if true then delivered, else do nothing
-            if(status) { cbtObj.setProductState(4); }
+            if(status == "4"){ cbtObj.setProductState(4); }
+            else if(status == "5"){ cbtObj.setProductState(5); }
+            cbtObj.setTransactionDescription(description);
         }
+        else{ throw new Error ('CBT with ID ' + cbtObjKey + ' not transported yet.'); }
+
+        // 4. update transaction object into world state
+        await ctx.cbtList.updateTransaction(cbtObj);
+
+        // 5. return modified object
+        return cbtObj;
     }
 
-    async orderFulfillment(ctx, cbtObjKey, monetaryStatus, transactionStatus, description) {
+    /**
+     * order fulfillment function
+     * @param {Context} ctx 
+     * @param {String} name 
+     * @param {String} txnId 
+     * @param {String} monetaryStatus 
+     * @param {String} transactionStatus 
+     * @param {String} description 
+     */
+    async orderFulfillment(ctx, name, txnId, monetaryStatus, transactionState, description) {
         // 1. retrieve object associated with given cbtObjKey
+        let cbtObjKey = Cbt.makeKey([name, txnId]);
         let cbtObj = await ctx.cbtList.getTransaction(cbtObjKey);
         
         // 2. check wheather cbtObj is present / Not
@@ -220,32 +286,56 @@ class CbtContext extends Context {
             throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
         }
 
+        // parse all JSON string to JSON object
+        monetaryStatus = JSON.parse(monetaryStatus);
+
+
         // 3. check wheather product is delivered / not
         if(cbtObj.getProductState() != 4) {
-            throw new Error('product not delivered yet. order fulfillment call failed.');
+            throw new Error('product not successfully delivered yet. order fulfillment failed.');
         }
 
         // 4. fulfill the order
-        // 4.1 update monetary status : transfer amount from receiver's bank's pool account to product supplier's account.
+        // 4.1 update monetary status : 
+        // if success: transfer amount from receiver's bank's pool account to product supplier's account.
+        // if failure: transfer amount from receiver's bank's pool account to product receivers's account.
         cbtObj.setMonetaryStatus(monetaryStatus.to, monetaryStatus.from, monetaryStatus.amount);
 
-        // 4.2 update transaction status state
-        cbtObj.transactionStatus.setTransactionState(transactionStatus); 
+        // 4.2 update transaction status: change state
+        if(transactionState == "4"){cbtObj.setTransactionState(4); }
+        else if(transactionState == "5"){cbtObj.setTransactionState(5); }
         
         // 4.3 update transaction description
-        cbtObj.transactionStatus.setTransactionDescription(description);
+        cbtObj.setTransactionDescription(description);
+
+        // 5. update transaction object into world state
+        await ctx.cbtList.updateTransaction(cbtObj);
+
+        // 6. return modified object
+        return cbtObj;
     }
 
-    async getCbt(ctx, cbtObjKey) {
+    /**
+     *  get CBT
+     * @param {Context} ctx 
+     * @param {String} name 
+     * @param {String} txnId 
+     */
+    async getCbt(ctx, name, txnId) {
         // 1. retrieve object associated with given cbtObjKey
+        let cbtObjKey = Cbt.makeKey([name, txnId]);
+        console.log(`original cbt object key: ${cbtObjKey} type: ${typeof cbtObjKey}`);
+
         let cbtObj = await ctx.cbtList.getTransaction(cbtObjKey);
         
         // 2. check wheather cbtId is present / Not
         if(cbtObj == null) {
             throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
         }
-
-        // 3. return Cbt object
+        
+        // parse object into string
+        let result = `name: ${cbtObj.requesterObj.name} address : ${cbtObj.requesterObj.address}`;
+        console.log(result);
         return cbtObj;
     }
 }

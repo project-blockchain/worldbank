@@ -11,7 +11,6 @@ const State = require('./../ledger-api/state.js');
 const cbtState = {
     REQUESTED: 1,
     INPROCESS: 2,
-    DELIVERED: 3,
     SUCCESSFUL: 4,
     FAILED: 5
 };
@@ -21,7 +20,8 @@ const productState = {
     NOTREADY: 1,
     SUPPLIED: 2,
     TRANSPORTED: 3,
-    DELIVERED: 4
+    DELIVERED: 4,
+    FAILED: 5
 };
 
 /**
@@ -31,7 +31,7 @@ const productState = {
 
 class Cbt extends State {
     constructor(obj) {
-        super(Cbt.getClass(), [obj.requesterObj.name, obj.txnId]);
+        super(Cbt.getClass(), [obj.requesterObj.name, obj.cbtId]);
         Object.assign(this, obj);
     }
 
@@ -42,11 +42,31 @@ class Cbt extends State {
 
     // 3. transporter
 
+    /**
+     * 
+     * @param {Strgng} id 
+     * @param {String} name 
+     * @param {String} address 
+     * @param {String} charges 
+     */
+    setTransporterObject(id, name, address, charges) {
+        this.transporterObj.id = id;
+        this.transporterObj.name = name;
+        this.transporterObj.address = address;
+        this.transporterObj.charges = charges
+    }
+
     // 4. monetaryStatus
     getmonetaryStatus() {
         return this.monetaryStatus;
     }
     
+    /**
+     * 
+     * @param {String} to 
+     * @param {String} from 
+     * @param {String} amount 
+     */
     setMonetaryStatus(to, from, amount) {
         this.monetaryStatus.to = to;
         this.monetaryStatus.from = from;
@@ -64,19 +84,40 @@ class Cbt extends State {
         return this.productStatus.location;
     }
 
+    /**
+     * 
+     * @param {String} state 
+     */
     setProductState(state) {
         this.productStatus.state = state;
     }
+
+    /**
+     * 
+     * @param {String} holder 
+     */
     setProductHolder(holder) {
         this.productStatus.holder = holder;
     }
+
+    /**
+     * 
+     * @param {String} location 
+     */
     setProductLocation(location) {
         this.productStatus.location = location;
     }
+
+    /**
+     * 
+     * @param {String} state 
+     * @param {String} holder 
+     * @param {String} location 
+     */
     setProductStatus(state, holder, location) {
-        setProductState(state);
-        setProductHolder(holder);
-        setProductLocation(location);
+        this.setProductState(state);
+        this.setProductHolder(holder);
+        this.setProductLocation(location);
     }
 
     // 6. transaction status
@@ -93,15 +134,32 @@ class Cbt extends State {
         return this.transactionStatus.receiversBankApproval;
     }
 
+    /**
+     * 
+     * @param {String} state 
+     */
     setTransactionState(state) {
         this.transactionStatus.transactionState = state;
     }
+
+    /**
+     * 
+     * @param {String} description 
+     */
     setTransactionDescription(description) {
         this.transactionStatus.description = description;
     }
+    /**
+     * 
+     * @param {String} value 
+     */
     setSupplierApproval(value){
         this.transactionStatus.supplierApproval = value;
     }
+    /**
+     * 
+     * @param {String} value 
+     */
     setReceiversBankApproval(value){
         this.transactionStatus.receiversBankApproval = value;
     }
@@ -127,8 +185,20 @@ class Cbt extends State {
     }
 
     // Factory method to create cross border transaction object
-    static createInstance(txnId, timeStamp, requesterObj, supplierObj, productObj, transporterObject, monetaryStatus, productStatus, transactionStatus){
-        return new Cbt({txnId, timeStamp, requesterObj, supplierObj, productObj, transporterObject, monetaryStatus, productStatus, transactionStatus});
+    /**
+     * 
+     * @param {String} cbtId 
+     * @param {String} timeStamp 
+     * @param {String} requesterObj 
+     * @param {String} supplierObj 
+     * @param {String} productObj 
+     * @param {String} transporterObj 
+     * @param {String} monetaryStatus 
+     * @param {String} productStatus 
+     * @param {String} transactionStatus 
+     */
+    static createInstance(cbtId, timeStamp, requesterObj, supplierObj, productObj, transporterObj, monetaryStatus, productStatus, transactionStatus){
+        return new Cbt({cbtId, timeStamp, requesterObj, supplierObj, productObj, transporterObj, monetaryStatus, productStatus, transactionStatus});
     }
 
     static getClass() {

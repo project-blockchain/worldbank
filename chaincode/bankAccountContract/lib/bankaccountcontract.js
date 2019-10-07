@@ -151,7 +151,7 @@ class BankAccountContract extends Contract {
      * @param {String} bankName 
      * @param {String} bankAccountNo 
      */
-    async viewBalance(ctx, bankName, bankAccountNo) {
+    async viewAccount(ctx, bankName, bankAccountNo) {
         // ToDo: validate wheather bank have permission to transfer amount from senders account
 
         // retrieve the current bank account using key fields provided
@@ -159,7 +159,7 @@ class BankAccountContract extends Contract {
         let bankAccount = await ctx.bankAccountList.getBankAccount(bankAccountKey);
 
         // return serialized balace of account object
-        return String(bankAccount.balance);
+        return bankAccount;
 
     }
 }

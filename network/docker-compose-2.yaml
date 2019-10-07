@@ -18,27 +18,34 @@ networks:
   worldbank:
 
 services:
-
-  peer0.lnt.worldbank.com:
-    container_name: peer0.lnt.worldbank.com
+  orderer.worldbank.com:
     extends:
-      file:  base/docker-compose-base.yaml
-      service: peer0.lnt.worldbank.com
+      file:   base/docker-compose-base.yaml
+      service: orderer.worldbank.com
+    container_name: orderer.worldbank.com
     networks:
       - worldbank
 
-  peer0.fedx.worldbank.com:
-    container_name: peer0.fedx.worldbank.com
+  peer0.xbank.worldbank.com:
+    container_name: peer0.xbank.worldbank.com
     extends:
       file:  base/docker-compose-base.yaml
-      service: peer0.fedx.worldbank.com
+      service: peer0.xbank.worldbank.com
     networks:
       - worldbank
 
-  peer0.sebi.worldbank.com:
-    container_name: peer0.sebi.worldbank.com
+  peer0.hdfc.worldbank.com:
+    container_name: peer0.hdfc.worldbank.com
     extends:
       file:  base/docker-compose-base.yaml
-      service: peer0.sebi.worldbank.com
+      service: peer0.hdfc.worldbank.com
+    networks:
+      - worldbank
+
+  peer0.tatasteel.worldbank.com:
+    container_name: peer0.tatasteel.worldbank.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.tatasteel.worldbank.com
     networks:
       - worldbank

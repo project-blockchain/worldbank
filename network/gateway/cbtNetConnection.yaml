@@ -66,31 +66,31 @@ channels:
         # Default: true
         eventSource: true
 
-      peer0.hdfc.worldbank.com:
+    peer0.hdfc.worldbank.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
     
-      peer0.tatasteel.worldbank.com:
+    peer0.tatasteel.worldbank.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
     
-      peer0.lnt.worldbank.com:
+    peer0.lnt.worldbank.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
     
-      peer0.fedx.worldbank.com:
+    peer0.fedx.worldbank.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
     
-      peer0.sebi.worldbank.com:
+    peer0.sebi.worldbank.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true

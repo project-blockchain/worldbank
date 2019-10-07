@@ -10,7 +10,7 @@ const yaml = require('js-yaml');
 const { FileSystemWallet, Gateway } = require('fabric-network');
 const Cbt = require('../chaincode/cbtContract/lib/cbt.js');
 // request transaction function
-async function requestTransaction(orgName, userName, secretKey, channelName, contractName, param) {
+var requestTransaction = async function (orgName, userName, secretKey, channelName, contractName, param) {
 
     const wallet = new FileSystemWallet('./identity/'+orgName+'/'+userName+'/'+'wallet');
     const gateway = new Gateway();
@@ -21,7 +21,7 @@ async function requestTransaction(orgName, userName, secretKey, channelName, con
         const uName = userName+'@'+orgName+'.worldbank.com';
 
         // Load connection profile; will be used to locate a gateway
-        let connectionProfile = yaml.safeLoad(fs.readFileSync('../network/gateway/cbtNetConnection.yaml', 'utf8'));
+        let connectionProfile = yaml.safeLoad(fs.readFileSync('./../network/gateway/cbtNetConnection.yaml', 'utf8'));
         // Set connection options; identity and wallet
         let connectionOptions = {
             identity: uName,
@@ -72,7 +72,7 @@ async function requestTransaction(orgName, userName, secretKey, channelName, con
         // process response
         console.log('Process issue transaction response.' + response);
         let jsonResponse = Cbt.fromBuffer(response);
-        console.log(jsonResponse);
+        // console.log(jsonResponse);
 
         // return response to user
         console.log('get CBT Transaction complete.');
@@ -88,17 +88,19 @@ async function requestTransaction(orgName, userName, secretKey, channelName, con
     }
 }
 
+module.exports = requestTransaction;
+
 // driver Code
-let requesterObj = {"name": "rohit", "address":"addr", "bankAccount":{"bankName":"xbank", "accountNo":"1"}} ;
-let supplierObj  = {"name": "akshay", "address":"addr2", "bankAccount":{"bankName":"hdfc", "accountNo":"1"}};
-let productObj  = {"id": "65", "name": "steel material", "quantity": "40", "amount": "4000"};
-let description  = "this is desc. from requestor";
-requestTransaction("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "cbt14", [requesterObj, supplierObj, productObj, description]).then(() => {
-    console.log('requestTransaction program complete.');
-    }).catch((e) => {
-        console.log('requestTransaction program exception.');
-        console.log(e);
-        console.log(e.stack);
-        process.exit(-1);
-    });
+// let requesterObj = {"name": "rohit", "address":"addr", "bankAccount":{"bankName":"xbank", "accountNo":"1"}} ;
+// let supplierObj  = {"name": "akshay", "address":"addr2", "bankAccount":{"bankName":"hdfc", "accountNo":"1"}};
+// let productObj  = {"id": "65", "name": "steel material", "quantity": "40", "amount": "4000"};
+// let description  = "this is desc. from requestor";
+// requestTransaction("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "cbt20", [requesterObj, supplierObj, productObj, description]).then(() => {
+//     console.log('requestTransaction program complete.');
+//     }).catch((e) => {
+//         console.log('requestTransaction program exception.');
+//         console.log(e);
+//         console.log(e.stack);
+//         process.exit(-1);
+//     });
     

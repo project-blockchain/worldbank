@@ -1,21 +1,18 @@
 {
-  "name": "nodejs",
+  "name": "package.json",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "lint": "eslint .",
-    "test": "rm -rf _idwallet && node addToWallet.js && node issue.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fabric-network": "~1.4.0",
-    "fabric-client": "~1.4.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "fabric-network": "^1.4.4",
     "js-yaml": "^3.13.1"
   },
-  "devDependencies": {
-    "eslint": "^5.6.0"
-  }
+  "devDependencies": {},
+  "description": ""
 }

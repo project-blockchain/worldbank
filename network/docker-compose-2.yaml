@@ -6,10 +6,6 @@
 version: '2'
 
 volumes:
-  orderer.worldbank.com:
-  peer0.xbank.worldbank.com:
-  peer0.hdfc.worldbank.com:
-  peer0.tatasteel.worldbank.com:
   peer0.lnt.worldbank.com:
   peer0.fedx.worldbank.com:
   peer0.sebi.worldbank.com:
@@ -21,24 +17,130 @@ services:
 
   peer0.lnt.worldbank.com:
     container_name: peer0.lnt.worldbank.com
-    extends:
-      file:  base/docker-compose-base.yaml
-      service: peer0.lnt.worldbank.com
+    image: hyperledger/fabric-peer:$IMAGE_TAG
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      # the following setting starts chaincode containers on the same
+      # bridge network as the peers
+      # https://docs.docker.com/compose/networking/
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_worldbank
+      - FABRIC_LOGGING_SPEC=INFO
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      # - CORE_PEER_TLS_ENABLED=true
+      # - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      # - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      # - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_CHAINCODE_EXECUTETIMEOUT=120S
+      - CORE_PEER_KEEPALIVE_CLIENT_TIMEOUT=120S
+      - CORE_PEER_KEEPALIVE_DELIVERYCLIENT_TIMEOUT=120S
+      - ORDERER_GENERAL_KEEPALIVE_SERVERTIMEOUT=120s
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    environment:
+      - CORE_PEER_ID=peer0.lnt.worldbank.com
+      - CORE_PEER_ADDRESS=peer0.lnt.worldbank.com:9031
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9031
+      - CORE_PEER_CHAINCODEADDRESS=peer0.lnt.worldbank.com:9032
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9032
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.lnt.worldbank.com:9031
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.lnt.worldbank.com:9031
+      - CORE_PEER_LOCALMSPID=lntMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/lnt.worldbank.com/peers/peer0.lnt.worldbank.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/lnt.worldbank.com/peers/peer0.lnt.worldbank.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.lnt.worldbank.com:/var/hyperledger/production
+    ports:
+      - 9031:9031
     networks:
       - worldbank
 
   peer0.fedx.worldbank.com:
     container_name: peer0.fedx.worldbank.com
-    extends:
-      file:  base/docker-compose-base.yaml
-      service: peer0.fedx.worldbank.com
+    image: hyperledger/fabric-peer:$IMAGE_TAG
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      # the following setting starts chaincode containers on the same
+      # bridge network as the peers
+      # https://docs.docker.com/compose/networking/
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_worldbank
+      - FABRIC_LOGGING_SPEC=INFO
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      # - CORE_PEER_TLS_ENABLED=true
+      # - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      # - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      # - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_CHAINCODE_EXECUTETIMEOUT=120S
+      - CORE_PEER_KEEPALIVE_CLIENT_TIMEOUT=120S
+      - CORE_PEER_KEEPALIVE_DELIVERYCLIENT_TIMEOUT=120S
+      - ORDERER_GENERAL_KEEPALIVE_SERVERTIMEOUT=120s
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    environment:
+      - CORE_PEER_ID=peer0.fedx.worldbank.com
+      - CORE_PEER_ADDRESS=peer0.fedx.worldbank.com:9041
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9041
+      - CORE_PEER_CHAINCODEADDRESS=peer0.fedx.worldbank.com:9042
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9042
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.fedx.worldbank.com:9041
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.fedx.worldbank.com:9041
+      - CORE_PEER_LOCALMSPID=fedxMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/fedx.worldbank.com/peers/peer0.fedx.worldbank.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/fedx.worldbank.com/peers/peer0.fedx.worldbank.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.fedx.worldbank.com:/var/hyperledger/production
+    ports:
+      - 9041:9041
+  
     networks:
       - worldbank
 
   peer0.sebi.worldbank.com:
     container_name: peer0.sebi.worldbank.com
-    extends:
-      file:  base/docker-compose-base.yaml
-      service: peer0.sebi.worldbank.com
+    image: hyperledger/fabric-peer:$IMAGE_TAG
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      # the following setting starts chaincode containers on the same
+      # bridge network as the peers
+      # https://docs.docker.com/compose/networking/
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_worldbank
+      - FABRIC_LOGGING_SPEC=INFO
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+      # - CORE_PEER_TLS_ENABLED=true
+      # - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      # - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      # - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_CHAINCODE_EXECUTETIMEOUT=120S
+      - CORE_PEER_KEEPALIVE_CLIENT_TIMEOUT=120S
+      - CORE_PEER_KEEPALIVE_DELIVERYCLIENT_TIMEOUT=120S
+      - ORDERER_GENERAL_KEEPALIVE_SERVERTIMEOUT=120s
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    environment:
+      - CORE_PEER_ID=peer0.sebi.worldbank.com
+      - CORE_PEER_ADDRESS=peer0.sebi.worldbank.com:9051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.sebi.worldbank.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.sebi.worldbank.com:9051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.sebi.worldbank.com:9051
+      - CORE_PEER_LOCALMSPID=sebiMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/sebi.worldbank.com/peers/peer0.sebi.worldbank.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/sebi.worldbank.com/peers/peer0.sebi.worldbank.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.sebi.worldbank.com:/var/hyperledger/production
+    ports:
+      - 9051:9051
     networks:
       - worldbank

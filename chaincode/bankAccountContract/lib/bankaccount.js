@@ -23,7 +23,7 @@ class BankAccount extends State {
     }
 
     getBalance() {
-        this.balance;
+        return this.balance;
     }
 
     setBalance(newBalance) {

@@ -28,6 +28,9 @@ docker exec -it cli bash
 # default working dir.
 /opt/gopath/src/github.com/hyperledger/fabric/peer
 
+# define CHANNEL_NAME
+export CHANNEL_NAME=<your channel name>
+
 # create channel 
 peer channel create -o orderer.worldbank.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem
 peer channel create -o orderer.worldbank.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx
@@ -47,6 +50,8 @@ peer lifecycle chaincode package mycc.tar.gz --path /opt/gopath/src/github.com/h
 #2. for V1.4
 peer chaincode install -n c2 -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/node/src/
 peer chaincode install -n cbt14 -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/cbtContract/
+# chaincode for bank system
+peer chaincode install -n bacc105 -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/bankAccountContract
 
 # export channel name
 export CHANNEL_NAME=cbtchannel
@@ -55,6 +60,8 @@ export CHANNEL_NAME=cbtchannel
 peer chaincode instantiate -o orderer.worldbank.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n cbtcc -v 1.0 -c '{"Args": }' -P "OR ('xbankMSP.peer','hdfcMSP.peer')"
 peer chaincode instantiate -o orderer.worldbank.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n cbtcc -v 1.0 -c '{"Args": ["org.worldbank.cbt:instantiate"]}'
 peer chaincode instantiate -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n cbt14 -v 1.0 -c '{"Args": ["org.worldbank.cbt:instantiate"]}'
+# for bank system
+peer chaincode instantiate -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n bacc105 -v 1.0 -c '{"Args": ["org.worldbank.bankaccount:instantiate"]}'
 
 # query chaincode
 peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","a"]}'
@@ -63,3 +70,8 @@ peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","a"]}'
 peer chaincode invoke -o orderer.worldbank.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n cbtcc14 -c '{"Args": }'
 peer chaincode invoke -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n cbt14 -c '{"Args": }'
 peer chaincode invoke -o orderer.worldbank.com:7050  -C $CHANNEL_NAME -n cbt14 -c '{"Args": ["getCbt", "rohit", "112345"]}'
+
+peer chaincode invoke -o orderer.worldbank.com:7050  -C $CHANNEL_NAME -n bacc105 -c '{"Args": ["createAccount", "hdfc", "1", "akshay", "50000"]}'
+peer chaincode invoke -o orderer.worldbank.com:7050  -C $CHANNEL_NAME -n bacc105 -c '{"Args": ["createAccount", "xbank", "1", "shubham", "50000"]}'
+peer chaincode invoke -o orderer.worldbank.com:7050  -C $CHANNEL_NAME -n bacc105 -c '{"Args": ["viewAccount", "xbank", "1"]}'
+peer chaincode invoke -o orderer.worldbank.com:7050  -C $CHANNEL_NAME -n bacc105 -c '{"Args": ["interBankFundTransfer", "hdfc", "1", "xbank", "1", "500"]}'

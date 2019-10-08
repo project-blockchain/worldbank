@@ -87,15 +87,19 @@ class BankAccountContract extends Contract {
         let receiverBankAccountKey = BankAccount.makeKey([receiverBankName, receiverAccountNo]);
         let receiverBankAccount = await ctx.bankAccountList.getBankAccount(receiverBankAccountKey);
 
+        console.log(`senders balance: ${senderBankAccount.getBalance()} typeof ${senderBankAccount.getBalance()}`)
         // check for senders sufficient balance
-        if(senderBankAccount.getBalance() < amount) {
+        if(Number(senderBankAccount.getBalance()) < Number(amount)) {
             throw new Error('sender do not have sufficient balance for transfer');
         }
 
         // transfer amount from sender to receiver
         let newSenderBalance = String(Number(senderBankAccount.getBalance()) - Number(amount));
+        console.log(`new sender bal: ${newSenderBalance}`);
         senderBankAccount.setBalance(newSenderBalance);
+
         let newReceiverBalance = String(Number(receiverBankAccount.getBalance()) + Number(amount));
+        console.log(`new receiever bal: ${newReceiverBalance}  type: ${typeof newReceiverBalance}`);
         receiverBankAccount.setBalance(newReceiverBalance);
         
         // update both the accounts into world state

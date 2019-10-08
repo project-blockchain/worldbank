@@ -81,18 +81,18 @@ async function setReceiversBankApproval(orgName, userName, secretKey, channelNam
 }
 
 // driver Code
-let name = "rohit";
-let txnId = "112345";
-let monetaryStatus = {"from": "lnt", "to": "xbank", "value": "4000"};
-let receiversBankApproval = "true";
-let description = "desc. from supplier";
+// let name = "rohit";
+// let txnId = "112345";
+// let monetaryStatus = {"from": "lnt", "to": "xbank", "value": "4000"};
+// let receiversBankApproval = "true";
+// let description = "desc. from supplier";
 
-setReceiversBankApproval("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "cbt14", [name, txnId, monetaryStatus, receiversBankApproval, description]).then(() => {
-    console.log('setReceiversBankApproval program complete.');
-    }).catch((e) => {
-        console.log('setReceiversBankApproval program exception.');
-        console.log(e);
-        console.log(e.stack);
-        process.exit(-1);
-    });
+// setReceiversBankApproval("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "cbt14", [name, txnId, monetaryStatus, receiversBankApproval, description]).then(() => {
+//     console.log('setReceiversBankApproval program complete.');
+//     }).catch((e) => {
+//         console.log('setReceiversBankApproval program exception.');
+//         console.log(e);
+//         console.log(e.stack);
+//         process.exit(-1);
+//     });
     

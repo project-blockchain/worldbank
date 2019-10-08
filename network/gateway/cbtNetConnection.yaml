@@ -27,7 +27,7 @@ description: "The worldbank blockchain network"
 version: "1.0"
 
 client:
-  organization: xbank
+  organization: hdfc
 
 #
 # [Optional]. But most apps would have this section so that channel objects can be constructed

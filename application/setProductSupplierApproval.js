@@ -85,19 +85,19 @@ async function setProductSupplierApproval(orgName, userName, secretKey, channelN
 }
 
 // driver Code
-let name = "rohit";
-let txnId = "112345";
-let supplierApproval = "true";
-let transporterObj = {"id": "123", "name": "fedx", "address": "fedx address here", "charges": "3000"};
-let productStatus = {"state": "2", "holder": "tatasteel", "location": "mumbai"};
-let transactionState = "IN PROCESS";
-let description = "desc. from supplier"
-setProductSupplierApproval("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "cbt14", [name, txnId, supplierApproval, transporterObj, productStatus, transactionState, description]).then(() => {
-    console.log('setProductSupplierApproval program complete.');
-    }).catch((e) => {
-        console.log('setProductSupplierApproval program exception.');
-        console.log(e);
-        console.log(e.stack);
-        process.exit(-1);
-    });
+// let name = "rohit";
+// let txnId = "112345";
+// let supplierApproval = "true";
+// let transporterObj = {"id": "123", "name": "fedx", "address": "fedx address here", "charges": "3000"};
+// let productStatus = {"state": "2", "holder": "tatasteel", "location": "mumbai"};
+// let transactionState = "IN PROCESS";
+// let description = "desc. from supplier";
+// setProductSupplierApproval("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "cbt14", [name, txnId, supplierApproval, transporterObj, productStatus, transactionState, description]).then(() => {
+//     console.log('setProductSupplierApproval program complete.');
+//     }).catch((e) => {
+//         console.log('setProductSupplierApproval program exception.');
+//         console.log(e);
+//         console.log(e.stack);
+//         process.exit(-1);
+//     });
     

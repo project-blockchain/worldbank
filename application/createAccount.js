@@ -8,10 +8,10 @@ SPDX-License-Identifier: Apache-2.0
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { FileSystemWallet, Gateway } = require('fabric-network');
-const Cbt = require('../chaincode/bankAccountContract/lib/bankaccountcontract.js');
+const BankAccountContract = require('../chaincode/bankAccountContract/lib/bankaccountcontract.js');
 // request transaction function
 
-async function productTransfer(orgName, userName, secretKey, channelName, contractName, param) {
+async function createAccount(orgName, userName, secretKey, channelName, contractName, param) {
 
     const wallet = new FileSystemWallet('./identity/'+orgName+'/'+userName+'/'+'wallet');
     const gateway = new Gateway();
@@ -74,13 +74,12 @@ async function productTransfer(orgName, userName, secretKey, channelName, contra
 }
 
 // driver Code
-
-createAccount("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "bacc105", ["hdfc", "1", "akshay", "50000"]).then(() => {
-    console.log('createAccount program complete.');
-    }).catch((e) => {
-        console.log('createAccount program exception.');
-        console.log(e);
-        console.log(e.stack);
-        process.exit(-1);
-    });
+// createAccount("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "bacc105", ["hdfc", "1", "akshay", "50000"]).then(() => {
+//     console.log('createAccount program complete.');
+//     }).catch((e) => {
+//         console.log('createAccount program exception.');
+//         console.log(e);
+//         console.log(e.stack);
+//         process.exit(-1);
+//     });
     

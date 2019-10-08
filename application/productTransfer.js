@@ -77,19 +77,19 @@ async function productTransfer(orgName, userName, secretKey, channelName, contra
 }
 
 // driver Code
-let name = "rohit";
-let txnId = "112345";
-let from = "lnt";
-let to = "lnt";
-let newLocation = "chicago";
-let state = "3";
+// let name = "rohit";
+// let txnId = "112345";
+// let from = "lnt";
+// let to = "lnt";
+// let newLocation = "chicago";
+// let state = "3";
 
-productTransfer("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "cbt14", [name, txnId, from, to, newLocation, state]).then(() => {
-    console.log('productTransfer program complete.');
-    }).catch((e) => {
-        console.log('productTransfer program exception.');
-        console.log(e);
-        console.log(e.stack);
-        process.exit(-1);
-    });
+// productTransfer("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "cbt14", [name, txnId, from, to, newLocation, state]).then(() => {
+//     console.log('productTransfer program complete.');
+//     }).catch((e) => {
+//         console.log('productTransfer program exception.');
+//         console.log(e);
+//         console.log(e.stack);
+//         process.exit(-1);
+//     });
     

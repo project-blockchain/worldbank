@@ -1,3 +1,5 @@
+<!-- environment variables to access CLI of specific container -->
+
 <!-- xbank peer0 -->
 CORE_PEER_ID=peer0.xbank.worldbank.com
 CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/xbank.worldbank.com/users/Admin@xbank.worldbank.com/msp

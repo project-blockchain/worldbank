@@ -78,17 +78,17 @@ async function updateProductDeliveryStatus(orgName, userName, secretKey, channel
 
 // driver Code
 
-let name = "rohit";
-let txnId = "112345";
-let status = "4";
-let description = "desc. from receiver";
+// let name = "rohit";
+// let txnId = "112345";
+// let status = "4";
+// let description = "desc. from receiver";
 
-updateProductDeliveryStatus("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "cbt14", [name, txnId, status, description]).then(() => {
-    console.log('updateProductDeliveryStatus program complete.');
-    }).catch((e) => {
-        console.log('updateProductDeliveryStatus program exception.');
-        console.log(e);
-        console.log(e.stack);
-        process.exit(-1);
-    });
+// updateProductDeliveryStatus("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "cbt14", [name, txnId, status, description]).then(() => {
+//     console.log('updateProductDeliveryStatus program complete.');
+//     }).catch((e) => {
+//         console.log('updateProductDeliveryStatus program exception.');
+//         console.log(e);
+//         console.log(e.stack);
+//         process.exit(-1);
+//     });
     

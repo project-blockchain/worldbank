@@ -50,7 +50,7 @@ async function getCBT(orgName, userName, secretKey, channelName, contractName, p
         // sample for calling contract function
         console.log('Submit getCbt transaction.');
 
-        const response = await contract.submitTransaction(param[0], param[1], param[2]);
+        const response = await contract.submitTransaction("getCbt", param[0], param[1]);
 
         // process response
         console.log('Process issue transaction response.' + response);
@@ -71,14 +71,13 @@ async function getCBT(orgName, userName, secretKey, channelName, contractName, p
     }
 }
 
+module.exports = getCBT;
 // request transaction driver Code
-getCBT("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "cbt14", ['getCbt', 'rohit', '112345']).then(() => {
-console.log('requestTransaction program complete.');
-}).catch((e) => {
-    console.log('requestTransaction program exception.');
-    console.log(e);
-    console.log(e.stack);
-    process.exit(-1);
-});
-
-
+// getCBT("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc200", ['shubham', '11570516043067']).then(() => {
+// console.log('requestTransaction program complete.');
+// }).catch((e) => {
+//     console.log('requestTransaction program exception.');
+//     console.log(e);
+//     console.log(e.stack);
+//     process.exit(-1);
+// });

@@ -66,16 +66,16 @@ var requestTransaction = async function (orgName, userName, secretKey, channelNa
 
 
         // calling contract function
-        console.log('Submit getCbt transaction.');
+        console.log('Submit requestTransaction transaction.');
         const response = await contract.submitTransaction("requestTransaction", timestamp, param[0], param[1], param[2], param[3]);
 
         // process response
-        console.log('Process issue transaction response.' + response);
+        console.log('Process requestTransaction transaction response.' + response);
         let jsonResponse = Cbt.fromBuffer(response);
         // console.log(jsonResponse);
 
         // return response to user
-        console.log('get CBT Transaction complete.');
+        console.log('requestTransaction Transaction complete.');
         return jsonResponse;
 
     } catch (error) {
@@ -91,11 +91,11 @@ var requestTransaction = async function (orgName, userName, secretKey, channelNa
 module.exports = requestTransaction;
 
 // driver Code
-// let requesterObj = {"name": "rohit", "address":"addr", "bankAccount":{"bankName":"xbank", "accountNo":"1"}} ;
+// let requesterObj = {"name": "shubham", "address":"addr", "bankAccount":{"bankName":"xbank", "accountNo":"1"}} ;
 // let supplierObj  = {"name": "akshay", "address":"addr2", "bankAccount":{"bankName":"hdfc", "accountNo":"1"}};
 // let productObj  = {"id": "65", "name": "steel material", "quantity": "40", "amount": "4000"};
 // let description  = "this is desc. from requestor";
-// requestTransaction("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "cbt20", [requesterObj, supplierObj, productObj, description]).then(() => {
+// requestTransaction("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc200", [requesterObj, supplierObj, productObj, description]).then(() => {
 //     console.log('requestTransaction program complete.');
 //     }).catch((e) => {
 //         console.log('requestTransaction program exception.');

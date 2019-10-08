@@ -80,19 +80,19 @@ async function orderFulfillment(orgName, userName, secretKey, channelName, contr
     }
 }
 
-// request transaction driver Code
-let name = "rohit";
-let txnId = "112345";
-let monetaryStatus = {"from": "xbank", "to": "tatasteel", "value": "4000"};
-let transactionState = "4";
-let description = "desc. from receiver's bank";
+// other bank fund transfer driver Code
+// let name = "rohit";
+// let txnId = "112345";
+// let monetaryStatus = {"from": "xbank", "to": "tatasteel", "value": "4000"};
+// let transactionState = "4";
+// let description = "desc. from receiver's bank";
 
-orderFulfillment("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "cbt14", [name, txnId, monetaryStatus, transactionState, description]).then(() => {
-    console.log('orderFulfillment program complete.');
-    }).catch((e) => {
-        console.log('orderFulfillment program exception.');
-        console.log(e);
-        console.log(e.stack);
-        process.exit(-1);
-    });
+// orderFulfillment("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc200", [name, txnId, monetaryStatus, transactionState, description]).then(() => {
+//     console.log('orderFulfillment program complete.');
+//     }).catch((e) => {
+//         console.log('orderFulfillment program exception.');
+//         console.log(e);
+//         console.log(e.stack);
+//         process.exit(-1);
+//     });
     

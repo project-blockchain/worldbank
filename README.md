@@ -1,2 +1,3 @@
 # worldbank
-worldbank - hyperledger fabric project
+worldbank - blockchain based banking system [hyperledger fabric project]
+

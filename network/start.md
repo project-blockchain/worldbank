@@ -56,9 +56,9 @@ peer channel update -o orderer.worldbank.com:7050 -c $CHANNEL_NAME -f ./channel-
 peer lifecycle chaincode package mycc.tar.gz --path /opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode/abstore/node/ --lang node --label mycc_1
 <!-- 2. for V1.4 -->
 <!-- for CBT -->
-peer chaincode install -n cbtcc200 -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/cbtContract/
+peer chaincode install -n cbtcc300 -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/cbtContract/
 <!-- for bank system -->
-peer chaincode install -n bacc200 -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/bankAccountContract
+peer chaincode install -n bacc300 -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/bankAccountContract
 
 ### export channel name
 export CHANNEL_NAME=<CHANNEL_NAME>
@@ -70,9 +70,9 @@ peer chaincode instantiate -o orderer.worldbank.com:7050 --tls --cafile /opt/gop
 peer chaincode instantiate -o orderer.worldbank.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n cbtcc -v 1.0 -c '{"Args": ["org.worldbank.cbt:instantiate"]}'
 <!-- withoutu TLS and without Policies -->
 <!-- for CBT -->
-peer chaincode instantiate -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n cbtcc200 -v 1.0 -c '{"Args": ["org.worldbank.cbt:instantiate"]}'
+peer chaincode instantiate -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n cbtcc300 -v 1.0 -c '{"Args": ["org.worldbank.cbt:instantiate"]}'
 <!-- for bank system -->
-peer chaincode instantiate -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n bacc200 -v 1.0 -c '{"Args": ["org.worldbank.bankaccount:instantiate"]}'
+peer chaincode instantiate -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n bacc300 -v 1.0 -c '{"Args": ["org.worldbank.bankaccount:instantiate"]}'
 
 ### query chaincode
 peer chaincode query -C $CHANNEL_NAME -n <chaincode_name> -c '{"Args":["query","a"]}'
@@ -82,6 +82,6 @@ peer chaincode query -C $CHANNEL_NAME -n <chaincode_name> -c '{"Args":["query","
 peer chaincode invoke -o orderer.worldbank.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n cbtcc14 -c '{"Args": }'
 <!-- without TLS -->
 <!-- for CBT -->
-peer chaincode invoke -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n cbtcc200 -c '{"Args": }'
+peer chaincode invoke -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n cbtcc300 -c '{"Args": }'
 <!-- for bank -->
 peer chaincode invoke -o orderer.worldbank.com:7050  -C $CHANNEL_NAME -n bacc200 -c '{"Args": }'

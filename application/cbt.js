@@ -29,7 +29,7 @@ router.post('/requestTransaction', async (req, res, next) =>{
       let supplierObj  = {"id": req.body.supplierId, "name": req.body.supplierName, "address": req.body.supplierAddress, "bankAccount":{"bankName": req.body.supplierBankName, "accountNo": req.body.supplierAccountNo}};
       let productObj  = {"id": req.body.productId, "name": req.body.productName, "quantity": req.body.productQuantity, "amount": req.body.productAmount};
       let description  = req.body.description;
-      let response = await requestTransaction("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc200", [requesterObj, supplierObj, productObj, description]);
+      let response = await requestTransaction("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc300", [requesterObj, supplierObj, productObj, description]);
       console.log(typeof response);
       console.log(response);
       res.send(JSON.stringify(response, undefined, 4));
@@ -54,7 +54,7 @@ router.post('/setProductSupplierApproval', async (req, res, next) => {
       let productStatus = {"state": req.body.productState, "holder": req.body.productHolder, "location": req.body.productLocation};
       let transactionState = req.body.transactionState;
       let description = req.body.description;
-      let response = await setProductSupplierApproval("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc200", [name, txnId, supplierApproval, transporterObj, productStatus, transactionState, description]);
+      let response = await setProductSupplierApproval("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc300", [name, txnId, supplierApproval, transporterObj, productStatus, transactionState, description]);
       console.log(typeof response);
       console.log(response);
       res.send(JSON.stringify(response, undefined, 4));
@@ -75,7 +75,7 @@ router.post('/setRecieversBankApproval', async (req, res, next) => {
     let monetaryStatus = {"from": req.body.from, "to": req.body.to, "value": req.body.amount};
     let receiversBankApproval = req.body.receiversBankApproval;
     let description = req.body.description;
-    let response = await setReceiversBankApproval("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc200", [name, txnId, monetaryStatus, receiversBankApproval, description]);  
+    let response = await setReceiversBankApproval("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc300", [name, txnId, monetaryStatus, receiversBankApproval, description]);  
     console.log(typeof response);
     console.log(response);
     res.send(JSON.stringify(response, undefined, 4));
@@ -98,8 +98,7 @@ router.post('/productTransfer', async (req, res, next) => {
     let to = req.body.to;
     let newLocation = req.body.newLocation;
     let state = req.body.state;
-    console.log("State"+state)
-    let response = await productTransfer("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc200", [name, txnId, from, to, newLocation, state]);
+    let response = await productTransfer("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc300", [name, txnId, from, to, newLocation, state]);
     console.log(typeof response);
     console.log(response);
     res.send(JSON.stringify(response, undefined, 4));
@@ -118,7 +117,7 @@ router.post('/updateProductDeliveryStatus', async (req, res, next) => {
     let txnId = req.body.txnId;
     let status = req.body.status;
     let description = req.body.description;
-    let response = await updateProductDeliveryStatus("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc200", [name, txnId, status, description]);
+    let response = await updateProductDeliveryStatus("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc300", [name, txnId, status, description]);
     console.log(typeof response);
     console.log(response);
     res.send(JSON.stringify(response, undefined, 4));
@@ -139,7 +138,7 @@ router.post('/orderFulfillment', async (req, res, next) => {
     let monetaryStatus = {"from": req.body.from, "to": req.body.to, "value": req.body.amount};
     let transactionState = req.body.transactionState;
     let description = req.body.description;
-    let response = await orderFulfillment("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc200", [name, txnId, monetaryStatus, transactionState, description]);
+    let response = await orderFulfillment("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc300", [name, txnId, monetaryStatus, transactionState, description]);
     console.log(typeof response);
     console.log(response);
     res.send(JSON.stringify(response, undefined, 4));
@@ -157,7 +156,7 @@ router.post('/getCBT', async (req, res, next) => {
     let txnId = req.body.txnId;
     console.log(name + " " + txnId);
     
-    let response = await getCBT("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc200", [name, txnId]);
+    let response = await getCBT("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc300", [name, txnId]);
     console.log(typeof response);
     console.log(response);
     res.send(JSON.stringify(response, undefined, 4));

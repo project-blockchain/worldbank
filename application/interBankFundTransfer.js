@@ -8,7 +8,7 @@ SPDX-License-Identifier: Apache-2.0
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { FileSystemWallet, Gateway } = require('fabric-network');
-const BankAccountContract = require('../chaincode/bankAccountContract/lib/bankaccountcontract.js');
+const BankAccount = require('../chaincode/bankAccountContract/lib/bankaccount.js');
 // request transaction function
 
 async function interBankFundTransfer(orgName, userName, secretKey, channelName, contractName, param) {
@@ -56,7 +56,7 @@ async function interBankFundTransfer(orgName, userName, secretKey, channelName, 
 
         // process response
         console.log('Process issue transaction response.' + response);
-        let jsonResponse = BankAccountContract.fromBuffer(response);
+        let jsonResponse = BankAccount.fromBuffer(response);
         console.log(jsonResponse);
 
         // return response to user

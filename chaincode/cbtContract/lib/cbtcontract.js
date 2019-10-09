@@ -65,12 +65,12 @@ class CbtContract extends Contract{
         let cbtId = requesterObj.bankAccount.accountNo + timeStamp;
 
         if(supplierObj == null){
-            throw new Error ('atleast 1 supplier details are required  for CBT.');
+            return JSON.stringify({"response": "atleast 1 supplier details are required  for CBT."});
         }
         else{ supplierObj = JSON.parse(supplierObj); }
 
         if(productObj == null){
-            throw new Error ('atleast 1 product details are required  for CBT.');
+            return JSON.stringify({"response": "atleast 1 product details are required  for CBT."});
         }
         else{ productObj = JSON.parse(productObj); }
 
@@ -109,7 +109,7 @@ class CbtContract extends Contract{
         
         // 2. check wheather cbtObj is present / Not
         if(cbtObj == null) {
-            throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
+            return JSON.stringify({"response": "CBT with ID " + cbtObjKey + " not present in world state!"});
         }
 
         // parse all JSON string to JSON object
@@ -121,7 +121,9 @@ class CbtContract extends Contract{
         cbtObj.setTransactionDescription(description);
         
         if(supplierApproval == "false") {
-            throw new Error ('CBT with ID ' + cbtObjKey + ' rejected by supplier!');
+            // update transaction object into world state
+            await ctx.cbtList.updateTransaction(cbtObj);
+            return cbtObj;
         }
 
         // 4. update productStatus details
@@ -156,7 +158,7 @@ class CbtContract extends Contract{
         
         // 2. check wheather cbtObj is present / Not
         if(cbtObj == null) {
-            throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
+            return JSON.stringify({"response": "CBT with ID " + cbtObjKey + " not present in world state!"});
         }
 
         // parse all JSON string to JSON object
@@ -166,16 +168,18 @@ class CbtContract extends Contract{
         // 3. check supplierApproval, if it is true then process forword
         // otherwise stop process 
         if(cbtObj.getSupplierApproval() == "false") {
-
-            throw new Error('supplier did not approved for this transaction (' + cbtObjKey + '), status: transaction failed.');
+            // update transaction object into world state
+            await ctx.cbtList.updateTransaction(cbtObj);
+            return cbtObj;
         }
 
         // 4. bank will decide this option after amount transaction from client bank account to bank's pool account
         cbtObj.setReceiversBankApproval(receiversBankApproval);
         if(receiversBankApproval == "false") {
             cbtObj.setTransactionDescription(description);
-            // print log message
-            console.log('receiver\'s bank is not approving for this transaction (' + cbtObjKey + '), status: transaction failed.');
+             // update transaction object into world state
+            await ctx.cbtList.updateTransaction(cbtObj);
+            return cbtObj;
         }
 
         // 5. update monetaryStatus
@@ -204,19 +208,19 @@ class CbtContract extends Contract{
         
         // 2. check wheather cbtObj is present / Not
         if(cbtObj == null) {
-            throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
+            return JSON.stringify({"response": "CBT with ID " + cbtObjKey + " not present in world state!"});
         }
 
         // 3. check bankApproval, if it is true then process forword
         // otherwise stop process and 
         if(!cbtObj.getReceiversBankApproval()) {
-            throw new Error('receiver\'s bank is not approving for this transaction (' + cbtObjKey + '), status: transaction failed.');
+            return JSON.stringify({"response": "receiver\'s bank is not approving for this transaction (" + cbtObjKey + "), status: transaction failed."});
         }
 
         // 4. update product status
         // 4.1 check wheather from party is a holder or not
         if(cbtObj.getProductHolder() != from) {
-            throw new Error('permission denied to update transfer product status, as this organization is not holding this product.');
+            return JSON.stringify({"response": "permission denied to update transfer product status, as this organization is not holding this product."});
         }
         // 4.2 set new asset holder
         cbtObj.setProductHolder(to);
@@ -248,7 +252,7 @@ class CbtContract extends Contract{
         
         // 2. check wheather cbtObj is present / Not
         if(cbtObj == null) {
-            throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
+            return JSON.stringify({"response": "CBT with ID " + cbtObjKey + " not present in world state!"});
         }
 
         // 3. check previous product status
@@ -259,7 +263,9 @@ class CbtContract extends Contract{
             else if(status == "5"){ cbtObj.setProductState(5); }
             cbtObj.setTransactionDescription(description);
         }
-        else{ throw new Error ('CBT with ID ' + cbtObjKey + ' not transported yet.'); }
+        else{ 
+            return JSON.stringify({"response": "CBT with ID " + cbtObjKey + "  not transported yet.!"});
+        }
 
         // 4. update transaction object into world state
         await ctx.cbtList.updateTransaction(cbtObj);
@@ -284,7 +290,7 @@ class CbtContract extends Contract{
         
         // 2. check wheather cbtObj is present / Not
         if(cbtObj == null) {
-            throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
+            return JSON.stringify({"response": "CBT with ID " + cbtObjKey + " not present in world state!"});
         }
 
         // parse all JSON string to JSON object
@@ -293,7 +299,7 @@ class CbtContract extends Contract{
 
         // 3. check wheather product is delivered / not
         if(cbtObj.getProductState() != 4) {
-            throw new Error('product not successfully delivered yet. order fulfillment failed.');
+            return JSON.stringify({"response": "product not successfully delivered yet. order fulfillment failed."});
         }
 
         // 4. fulfill the order
@@ -331,12 +337,10 @@ class CbtContract extends Contract{
         
         // 2. check wheather cbtId is present / Not
         if(cbtObj == null) {
-            throw new Error ('CBT with ID ' + cbtObjKey + ' not present in world state!');
+            return JSON.stringify({"response": "CBT with ID " + cbtObjKey + " not present in world state!"});
         }
         
         // parse object into string
-        let result = `name: ${cbtObj.requesterObj.name} address : ${cbtObj.requesterObj.address}`;
-        console.log(result);
         return cbtObj;
     }
 }

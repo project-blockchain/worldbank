@@ -30,3 +30,19 @@
             "accountNo": "4567"
         }
     }
+
+<!-- res 3 -->
+"class": "org.worldbank.cbt",
+    "key": "\"user1@lnt\":\"1231570603774551\"",
+    "currentState": null,
+    "cbtId": "1231570603774551",
+    "timeStamp": "1570603774551",
+    "requesterObj": {
+        "id": "1",
+        "name": "user1@lnt",
+        "address": "chicago",
+        "bankAccount": {
+            "bankName": "xbank",
+            "accountNo": "123"
+        }
+    },

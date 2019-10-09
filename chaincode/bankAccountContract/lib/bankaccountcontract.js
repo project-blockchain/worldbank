@@ -90,7 +90,7 @@ class BankAccountContract extends Contract {
         console.log(`senders balance: ${senderBankAccount.getBalance()} typeof ${senderBankAccount.getBalance()}`)
         // check for senders sufficient balance
         if(Number(senderBankAccount.getBalance()) < Number(amount)) {
-            throw new Error('sender do not have sufficient balance for transfer');
+            return JSON.stringify({"response": "sender do not have sufficient balance to transfer"});
         }
 
         // transfer amount from sender to receiver
@@ -132,7 +132,7 @@ class BankAccountContract extends Contract {
 
         // check for senders sufficient balance
         if(senderBankAccount.getBalance() < amount) {
-            throw new Error('sender do not have sufficient balance for transfer');
+            return JSON.stringify({"response": "sender do not have sufficient balance to transfer"});            
         }
 
         // transfer amount from sender to receiver

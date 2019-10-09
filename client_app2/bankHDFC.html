@@ -39,34 +39,35 @@
     </nav>
     <div style="margin-bottom: 50px;">
         <div class="container">
+            <h1 style="font-size: 19px;color: rgb(84,85,86);">worldbank / bank / bank2</h1>
             <div class="row">
                 <div class="col-3 col-md-4 offset-0 justify-content-center mx-auto" style="padding: 0px;">
                     <div class="shadow-lg" style="margin: 20px;background-color: #ffffff;">
                         <h3 class="text-center" style="margin-top: 0px;background-color: #1678cc;font-size: 20px;color: rgb(255,255,255);padding: 5px;">Create Account</h3>
                         <div>
-                            <form style="padding: 10px;"><input class="form-control" type="text" placeholder="Name" name="name" style="margin: 5px;"><input class="form-control" type="text" placeholder="Account Number" name="accountNumber" style="margin: 5px;"><input class="form-control"
-                                    type="text" placeholder="Initial Balance" name="initialbalance" style="margin: 5px;"><input class="form-control" type="text" placeholder="address" name="initialbalance" style="margin: 5px;"><button class="btn btn-primary"
-                                    type="button" style="margin-top: 10px;">Create</button></form>
+                            <form style="padding: 10px;"><input class="form-control" type="text" placeholder="Name" name="uname" style="margin: 5px;"><input class="form-control" type="text" placeholder="Account Number" name="accountNumber" style="margin: 5px;"><input class="form-control"
+                                    type="text" placeholder="Initial Balance" name="initialBalance" style="margin: 5px;"><input class="form-control" type="text" placeholder="address" name="address" style="margin: 5px;"><button class="btn btn-primary" type="button"
+                                    style="margin-top: 10px;">Create</button></form>
                         </div>
                     </div>
                 </div>
                 <div class="col-3 col-md-4 offset-0" style="padding: 0px;">
                     <div class="shadow-lg" style="background-color: #ffffff;margin: 20px;">
                         <h3 class="text-center border rounded" style="background-color: #1678cc;font-size: 20px;margin-top: 0px;color: rgb(255,255,255);padding: 5px;">View Account</h3>
-                        <form style="padding: 10px;"><input class="form-control" type="text" placeholder="Account Number" name="accountNumber" style="margin: 5px;"><button class="btn btn-primary" type="button" style="margin-top: 20px;">View</button></form>
+                        <form style="padding: 10px;"><input class="form-control" type="text" placeholder="Account Number" name="accountNumber2" style="margin: 5px;"><button class="btn btn-primary" type="button" style="margin-top: 20px;">View</button></form>
                     </div>
                 </div>
                 <div class="col-3 col-md-4 offset-0" style="padding: 0px;">
                     <div class="shadow-lg" style="margin: 20px;">
                         <h3 class="text-center border rounded" style="background-color: #1678cc;font-size: 20px;margin-top: 0px;color: rgb(255,255,255);padding: 5px;">Fund Transfer</h3>
                         <form style="padding: 10px;"><label style="font-size: 17px;color: rgb(0,0,0);">Type:</label>
-                            <div class="form-check" name="transferMode"><input class="form-check-input" type="radio" id="formCheck-2" name="transferMode"><label class="form-check-label" for="formCheck-2" style="font-size: 17px;">Interbank Transfer</label></div>
-                            <div class="form-check"><input class="form-check-input" type="radio" id="formCheck-1" name="transferMode"><label class="form-check-label" for="formCheck-1" style="font-size: 17px;">Other bank transfer</label></div><label style="margin-top: 10px;font-size: 17px;color: #000000;">From:</label>
+                            <div class="form-check" name="transferMode"><input class="form-check-input" type="radio" id="formCheck-2" name="transferMode" value="1"><label class="form-check-label" for="formCheck-2" style="font-size: 17px;">Interbank Transfer</label></div>
+                            <div class="form-check"><input class="form-check-input" type="radio" id="formCheck-1" name="transferMode" value="2"><label class="form-check-label" for="formCheck-1" style="font-size: 17px;">Other bank transfer</label></div><label style="margin-top: 10px;font-size: 17px;color: #000000;">From:</label>
                             <input
-                                class="form-control" type="text" placeholder="Bank Name" name="fromBank" style="margin: 5px;"><input class="form-control" type="text" placeholder="Account Number" name="fromAccount" style="margin: 5px;"><label style="margin-top: 10px;font-size: 17px;color: #000000;">To:</label><input class="form-control" type="text"
-                                    name="toBank" placeholder="Bank Name" style="margin: 5px;"><input class="form-control" type="text" placeholder="Account Number" name="toAccount" style="margin: 5px;"><label style="margin-top: 10px;font-size: 17px;color: #000000;">amount:</label>
+                                class="form-control" type="text" placeholder="Bank Name" name="fromBank" style="margin: 5px;"><input class="form-control" type="text" placeholder="Account Number" name="fromAccountNo" style="margin: 5px;"><label style="margin-top: 10px;font-size: 17px;color: #000000;">To:</label><input class="form-control" type="text"
+                                    name="toBank" placeholder="Bank Name" style="margin: 5px;"><input class="form-control" type="text" placeholder="Account Number" name="toAccountNo" style="margin: 5px;"><label style="margin-top: 10px;font-size: 17px;color: #000000;">amount:</label>
                                 <input
-                                    class="form-control" type="text" placeholder="Account Number" name="toAccount" style="margin: 5px;"><button class="btn btn-primary" type="button" style="margin-top: 20px;">transfer</button></form>
+                                    class="form-control" type="text" placeholder="Account Number" name="transferAmount" style="margin: 5px;"><button class="btn btn-primary" type="button" style="margin-top: 20px;">transfer</button></form>
                     </div>
                 </div>
             </div>

@@ -78,7 +78,7 @@ class CbtContract extends Contract{
         let transporterObj = {"id": null, "name": null, "address": null, "charges": null};
         let monetaryStatus = {"from": null, "to": null, "amount": null};
         let productStatus = {"state": null, "holder": null, "location": null};
-        let transactionStatus = {"state": 1, "description": description, "supplierApproval":null, "receiversBankApproval":null};  // 1: REQUESTED
+        let transactionStatus = {"transactionState": 1, "description": description, "supplierApproval":null, "receiversBankApproval":null};  // 1: REQUESTED
 
         let cbtObj = Cbt.createInstance(cbtId, timeStamp, requesterObj, supplierObj, productObj, transporterObj, monetaryStatus, productStatus, transactionStatus);
         if(cbtObj != null){ console.log('new transaction request created successfully.'); }

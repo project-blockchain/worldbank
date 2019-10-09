@@ -73,6 +73,8 @@ async function viewAccount(orgName, userName, secretKey, channelName, contractNa
     }
 }
 
+module.exports = viewAccount;
+
 // driver Code
 
 // viewAccount("xbank", "User1", "82592ffb23cc9207d8023a51374c1f75e803fefd96d23faf301b18c62c9da779", "cbtchannel", "bacc105", ["hdfc", "1"]).then(() => {

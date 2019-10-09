@@ -39,14 +39,17 @@
     </nav>
     <div>
         <div class="container">
-            <h1 style="font-size: 19px;color: rgb(84,85,86);">cross border transaction / supplier</h1>
+            <h1 style="font-size: 19px;color: rgb(84,85,86);">worldbank / cross border transaction / supplier</h1>
             <div class="row justify-content-center" style="height: 400px;">
                 <div class="col-4 col-md-4 offset-3 justify-content-center mx-auto" style="padding: 10px;">
                     <div class="border rounded shadow-lg" style="height: 300px;background-color: #ffffff;">
                         <h3 class="text-center" style="margin-top: 0px;background-color: #1678cc;font-size: 20px;color: #eaeaea;padding: 5px;">View Transactions</h3>
-                        <form style="margin: 10px;">
-                            <div class="form-group"><input class="form-control" type="text" placeholder="ener requester name"></div>
-                            <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction id"></div><button class="btn btn-primary" type="submit">view</button></form>
+                        <!-- form -->
+                        <div style="margin: 10px;">
+                            <div class="form-group"><input class="form-control" type="text" placeholder="enter reciever name" name="requesterName"></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction ID" name="txnId"></div><button class="btn btn-primary" type="submit" onclick="process()">view</button>
+                        </div>
+                        <!-- form -->
                     </div>
                 </div>
                 <div class="col-4 col-md-4 offset-0 mx-auto" style="padding: 10px;height: 400px;">
@@ -71,42 +74,42 @@
                 <div class="clearfix"></div>
                 <div class="col-3">
                     <div class="border rounded shadow-lg" style="margin: 10px;height: auto;padding: 10px;background-color: #ffffff;">
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter requeter name"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction DI"></div>
-                        <h1 style="font-size: 20px;color: rgb(69,74,79);margin-top: 20px;">Supplier details</h1>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter receiver name"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter receiver name"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter receiver ID"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter receiver address"></div>
+                        <h1 style="font-size: 20px;color: rgb(69,74,79);margin-top: 20px;">Transaction details</h1>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter reciever name" name="requesterName2"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction ID" name="txnId2"></div>
+                        <h1 style="font-size: 20px;color: rgb(69,74,79);margin-top: 20px;">Supplier Updates</h1>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter supplier approval" name="supplierApproval"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction status" name="transactionState"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter description" name="description"></div>
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="border rounded shadow-lg" style="height: 300px;background-color: #ffffff;margin: 10px;padding: 10px;">
-                        <h1 style="font-size: 20px;color: #454a4f;">Transport details</h1>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter transporter ID"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter transporter name"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter transporter address"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter charges"></div>
+                        <h1 style="font-size: 20px;color: #454a4f;">Transporter details</h1>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter transporter ID" name="transporterId"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter transporter name" name="transporterName"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter transporter address" name="transporterAddress"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter charges" name="transporterCharges"></div>
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="border rounded" style="height: auto;background-color: #ffffff;margin: 10px;padding: 10px;">
                         <h1 style="font-size: 20px;color: #454a4f;">Product status</h1>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product status"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product holder"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product location"></div>
-                    </div><button class="btn btn-outline-primary active text-center" type="button" style="margin: 10px;margin-top: 20px;">&nbsp; update &nbsp;</button></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product status" name="productState"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product holder name" name="productHolder"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product location" name="productLocation"></div>
+                    </div><button class="btn btn-outline-primary active text-center" type="button" style="margin: 10px;margin-top: 20px;" onclick="process2()">&nbsp; update &nbsp;</button></div>
             </div>
         </form>
     </section>
     <section style="background-color: #dcecff;"></section>
-    <div class="modal fade" role="dialog" tabindex="-1">
+    <div id="viewModal" class="modal fade" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Account Details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                    <h4 class="modal-title">Transaction details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
                 <div class="modal-body">
-                    <p>accont details</p>
+                    <pre id="resdata">Transaction details</pre>
                 </div>
                 <div class="modal-footer"><button class="btn btn-primary" type="button">close</button></div>
             </div>
@@ -115,6 +118,71 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/Media-Slider-Bootstrap-3.js"></script>
+
+    <script>
+        function process(){
+            console.log('inprocess');
+            var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://192.168.0.5:3000/cbt/getCBT",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/x-www-form-urlencoded",
+                "cache-control": "no-cache",
+
+            },
+            "data": {
+                "name": $("input[name= 'requesterName']").val(),
+                "txnId": $("input[name= 'txnId']").val()
+            }
+            }
+            $.ajax(settings).done(function (response) {
+            console.log(response);
+            $("#viewModal #resdata").html(response);
+            $("#viewModal").modal();
+            });
+        }
+        function process2(){
+            console.log('inprocess');
+            var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://192.168.0.5:3000/cbt/setProductSupplierApproval",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/x-www-form-urlencoded",
+                "cache-control": "no-cache",
+
+            },
+            "data": {
+                "name": $("input[name= 'requesterName2']").val(),
+                "txnId": $("input[name= 'txnId2']").val(),
+
+                "supplierApproval":  $("input[name= 'supplierApproval']").val(),
+
+                "transporterId": $("input[name= 'transporterId']").val(),
+                "transporterName": $("input[name= 'transporterName']").val(),
+                "transporterAddress": $("input[name= 'transporterAddress']").val(),
+                "transporterCharges": $("input[name= 'transporterCharges']").val(),
+            
+
+                "productState": $("input[name= 'productState']").val(),
+                "productHolder": $("input[name= 'productHolder']").val(),
+                "productLocation": $("input[name= 'productLocation']").val(),
+
+
+                "transactionState": $("input[name= 'transactionState']").val(),
+                "description": $("input[name= 'description']").val(),
+            }
+            }
+            $.ajax(settings).done(function (response) {
+            console.log(response);
+            $("#viewModal #resdata").html(response);
+            $("#viewModal").modal();
+            });
+        }
+    </script>
 </body>
 
 </html>

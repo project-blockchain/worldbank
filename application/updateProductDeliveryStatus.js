@@ -76,6 +76,8 @@ async function updateProductDeliveryStatus(orgName, userName, secretKey, channel
     }
 }
 
+module.exports = updateProductDeliveryStatus;
+
 // driver Code
 
 // let name = "rohit";

@@ -24,7 +24,6 @@
     <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
     <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
     <link rel="stylesheet" href="assets/css/styles.css">
-    <script src="jquery.js"></script>
 </head>
 
 <body style="background-color: rgb(255,255,255);">
@@ -36,59 +35,56 @@
                 <ul class="nav navbar-nav mr-auto">
                     <li class="nav-item" role="presentation"></li>
                 </ul>
-            </div><button class="btn btn-success" type="button"><i class="fa fa-user-circle-o"></i>&nbsp; user3@sebi</button><button class="btn btn-primary" type="button" style="margin-left: 5px;">logout &nbsp;<i class="fa fa-arrow-circle-o-right"></i></button></div>
+            </div><button class="btn btn-success btn-sm" type="button"><i class="fa fa-user-circle-o"></i>&nbsp; user3@sebi</button><button class="btn btn-dark btn-sm" type="button" style="margin-left: 5px;">logout &nbsp;<i class="fa fa-arrow-circle-o-right"></i></button></div>
     </nav>
-    <div>
-        <div class="container">
-            <h1 style="font-size: 29px;">cross border transaction</h1>
-            <div class="row">
-                <div class="col-3 col-md-4 offset-0 justify-content-center mx-auto" style="background-color: #d0d0d0;padding: 0px;">
-                    <div></div>
-                    <h3 class="text-center" style="margin-top: 0px;background-color: #428bca;font-size: 25px;color: #eaeaea;">view Transactions</h3>
-                    <div>
-                        <ul class="list-unstyled" style="font-size: 22px;margin: 10px;"></ul>
-                    </div>
-                    <div method="POST" style="margin: 10px;">
-                        <div class="form-group"><input class="form-control" name ="uname" ype="text" placeholder="ener requester name"></div>
-                        <div class="form-group"><input class="form-control" name="txnId" placeholder="enter transaction id"></div><button class="btn btn-primary" onclick="process()">view</button></div>
-                </div>
-                <div class="col-3 col-md-4 offset-0" style="background-color: #e3e3e3;padding: 0px;">
-                    <div></div>
-                    <h3 class="text-center border rounded" style="background-color: #428bca;font-size: 25px;color: #eaeaea;margin: 0px;">Transaction Status</h3>
-                    <form>
-                        <div class="form-group"><label style="margin: 5px;">transaction status will be displayed here</label></div>
-                    </form>
-                </div>
-                <div class="col-3 col-md-4" style="background-color: rgb(208,208,208);padding: 0px;">
-                    <h3 class="text-center border rounded" style="background-color: #428bca;font-size: 25px;color: #eaeaea;margin: 0px;">Transaction Log</h3>
-                    <div style="height: 300px;background-color: #333030;margin: 10px;;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id ="viewModal" class="modal fade" role="dialog" tabindex="-1">
+    <div id="viewModal" class="modal fade" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Account Details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
-                <div  class="modal-body">
-                    <p id ="resdata">accont details</p>
+                <div class="modal-body">
+                    <pre id="resdata">account details will be displayed here</pre>
                 </div>
                 <div class="modal-footer"><button class="btn btn-primary" type="button">close</button></div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="container">
+            <h1 style="font-size: 19px;color: rgb(84,85,86);">cross border transaction / regulator</h1>
+            <div class="row justify-content-center" style="height: 400px;">
+                <div class="col-4 col-md-4 offset-3 justify-content-center mx-auto" style="padding: 10px;">
+                    <div class="border rounded shadow-lg" style="height: 300px;background-color: #ffffff;">
+                        <h3 class="text-center" style="margin-top: 0px;background-color: #1678cc;font-size: 20px;color: #eaeaea;padding: 5px;">View Transactions</h3>
+                        <div style="margin: 10px;">
+                            <div class="form-group"><input class="form-control" type="text" name="uname" placeholder="ener requester name"></div>
+                            <div class="form-group"><input class="form-control" type="text" name="txnId" placeholder="enter transaction id"></div><button class="btn btn-primary" type="submit" onclick="process();">view</button></div>
+                    </div>
+                </div>
+                <div class="col-4 col-md-4 offset-0 mx-auto" style="padding: 10px;height: 400px;">
+                    <div class="shadow-lg" style="background-color: #ffffff;">
+                        <h3 class="text-center border rounded" style="background-color: #1678cc;font-size: 20px;color: #eaeaea;margin: 0px;padding: 5px;">Update Transaction Status</h3>
+                    </div>
+                </div>
+                <div class="col-3 col-md-4" style="padding: 10px;">
+                    <div class="shadow-lg" style="height: 400px;background-color: #ffffff;margin: 0px;">
+                        <h3 class="text-center border rounded" style="background-color: #1678cc;font-size: 20px;color: #eaeaea;margin: 0px;padding: 5px;">Transaction Log</h3>
+                        <div style="height: 360px;background-color: #333333;"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/Media-Slider-Bootstrap-3.js"></script>
-    
     <script>
     	function process(){
     		console.log('inprocess');
 			var settings = {
 		  "async": true,
 		  "crossDomain": true,
-		  "url": "http://192.168.43.160:3000/cbt/getCBT",
+		  "url": "http://192.168.0.5:3000/cbt/getCBT",
 		  "method": "POST",
 		  "headers": {
 			"content-type": "application/x-www-form-urlencoded",
@@ -102,9 +98,8 @@
 		}
 		console.log($('input[name= "uname"]').val())
 		$.ajax(settings).done(function (response) {
-		  $("#resdata").val(response);
 		  console.log(response);
-		  document.getElementById('resdata').innerhtml=response;
+          $("#viewModal #resdata").html(response);
 		  $("#viewModal").modal();
 		});
 	}

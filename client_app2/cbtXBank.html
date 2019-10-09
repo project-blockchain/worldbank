@@ -39,48 +39,60 @@
     </nav>
     <div>
         <div class="container">
-            <h1 style="font-size: 19px;color: rgb(84,85,86);">cross border transaction / bank 1</h1>
+            <h1 style="font-size: 19px;color: rgb(84,85,86);">worldbank / cross border transaction / bank 1</h1>
             <div class="row justify-content-center">
                 <div class="col-4 col-md-4 offset-3 justify-content-center mx-auto" style="padding: 10px;">
                     <div class="border rounded shadow-lg" style="height: 300px;background-color: #ffffff;">
                         <h3 class="text-center" style="margin-top: 0px;background-color: #1678cc;font-size: 20px;color: #eaeaea;padding: 5px;">View Transactions</h3>
-                        <form style="margin: 10px;">
-                            <div class="form-group"><input class="form-control" type="text" placeholder="ener requester name"></div>
-                            <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction id"></div><button class="btn btn-primary" type="submit">view</button></form>
+                        <!-- form -->
+                        <div style="margin: 10px;">
+                            <div class="form-group"><input class="form-control" type="text" placeholder="enter reciever name" name="requesterName"></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction ID" name="txnId"></div><button class="btn btn-primary" type="submit" onclick="process()">view</button>
+                        </div>
+                        <!-- /form -->
                     </div>
                 </div>
                 <div class="col-4 col-md-4 offset-0 mx-auto" style="padding: 10px;">
                     <div class="shadow-lg" style="background-color: #ffffff;">
                         <h3 class="text-center border rounded" style="background-color: #1678cc;font-size: 20px;color: #eaeaea;margin: 0px;padding: 5px;">Update Transaction Status</h3>
                         <form style="margin: 10px;">
-                            <div class="form-group"><input class="form-control" type="text" placeholder="ener requester name"></div>
-                            <div class="form-group"><input class="form-control" type="text" placeholder="ener transaction ID"></div><label style="font-size: 17px;color: rgb(0,0,0);">monetary status</label>
-                            <div class="form-group"><input class="form-control" type="text" placeholder="from"></div>
-                            <div class="form-group"><input class="form-control" type="text" placeholder="to"></div>
-                            <div class="form-group"><input class="form-control" type="text" placeholder="amount"></div><label style="font-size: 17px;color: rgb(0,0,0);">bank status</label>
-                            <div class="form-group"><input class="form-control" type="text" placeholder="bank approval"></div>
-                            <div class="form-group"><input class="form-control" type="text" placeholder="description"></div>
-                            <div class="btn-group d-md-flex justify-content-md-center" role="group" style="padding: 10px;margin-top: 30px;"><a class="btn btn-primary" role="button" href="bankXBank.html" style="margin: 2px;">verify</a><button class="btn btn-primary bg-success" type="button" style="margin: 2px;">approve</button><button class="btn btn-primary border-danger"
-                                    type="button" style="background-color: #d81e05;margin: 2px;">deny</button></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="enter reciever name" name="requesterName2"></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction ID" name="txnId2"></div><label style="font-size: 17px;color: rgb(0,0,0);">monetary status</label>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="from" name="from"></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="to" name="to"></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="amount" name="amount"></div><label style="font-size: 17px;color: rgb(0,0,0);">bank status</label>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="bank approval" name="receiversBankApproval"></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="description" name="description"></div>
+                            <div class="btn-group d-md-flex justify-content-md-center" role="group" style="padding: 10px;margin-top: 30px;"><a class="btn btn-primary" role="button" href="bankXBank.html" style="margin: 2px;">verify</a><button class="btn btn-primary bg-success" type="button" style="margin: 2px;" onclick="process2()">approve</button><button class="btn btn-primary border-danger"type="button" style="background-color: #d81e05;margin: 2px;"  onclick="process2()">deny</button></div>
                         </form>
                     </div>
                 </div>
-                <div class="col-3 col-md-4" style="padding: 10px;">
-                    <div class="shadow-lg" style="height: 530px;background-color: #ffffff;margin: 0px;">
-                        <h3 class="text-center border rounded" style="background-color: #1678cc;font-size: 20px;color: #eaeaea;margin: 0px;padding: 5px;">Transaction Log</h3>
-                        <div style="height: 493px;background-color: #333333;"></div>
+                
+                <div class="col-4 col-md-4 offset-0 mx-auto" style="padding: 10px;">
+                    <div class="shadow-lg" style="background-color: #ffffff;">
+                        <h3 class="text-center border rounded" style="background-color: #1678cc;font-size: 20px;color: #eaeaea;margin: 0px;padding: 5px;">Order Fulfillment Status</h3>
+                        <form style="margin: 10px;">
+                            <div class="form-group"><input class="form-control" type="text" placeholder="enter reciever name" name="requesterName3"></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction ID" name="txnId3"></div><label style="font-size: 17px;color: rgb(0,0,0);">monetary status</label>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="from" name="from2"></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="to" name="to2"></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="amount" name="amount2"></div><label style="font-size: 17px;color: rgb(0,0,0);">bank status</label>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="transaction status" name="transactionState"></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="description" name="description2"></div>
+                            <div class="btn-group d-md-flex justify-content-md-center" role="group" style="padding: 10px;margin-top: 30px;"><a class="btn btn-primary" role="button" href="bankXBank.html" style="margin: 2px;">verify</a><button class="btn btn-primary bg-success" type="button" style="margin: 2px;" onclick="process3()">approve</button><button class="btn btn-primary border-danger"type="button" style="background-color: #d81e05;margin: 2px;"  onclick="process3()">deny</button></div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1">
+    <div id="viewModal" class="modal fade" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Account Details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                    <h4 class="modal-title">Transaction Details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
                 <div class="modal-body">
-                    <p>accont details</p>
+                    <pre id="resdata">accont details</pre>
                 </div>
                 <div class="modal-footer"><button class="btn btn-primary" type="button">close</button></div>
             </div>
@@ -89,6 +101,95 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/Media-Slider-Bootstrap-3.js"></script>
+
+    <script>
+        function process(){
+            console.log('inprocess');
+            var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://192.168.0.5:3000/cbt/getCBT",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/x-www-form-urlencoded",
+                "cache-control": "no-cache",
+
+            },
+            "data": {
+                "name": $("input[name= 'requesterName']").val(),
+                "txnId": $("input[name= 'txnId']").val()
+            }
+            }
+            $.ajax(settings).done(function (response) {
+            console.log(response);
+            $("#viewModal #resdata").html(response);
+            $("#viewModal").modal();
+            });
+        }
+
+        function process2(){
+            console.log('inprocess');
+            var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://192.168.0.5:3000/cbt/setRecieversBankApproval",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/x-www-form-urlencoded",
+                "cache-control": "no-cache",
+
+            },
+            "data": {
+                "name": $("input[name= 'requesterName2']").val(),
+                "txnId": $("input[name= 'txnId2']").val(),
+
+                "from":  $("input[name= 'from']").val(),
+                "to": $("input[name= 'to']").val(),
+                "amount": $("input[name= 'amount']").val(),
+               
+                "receiversBankApproval": $("input[name= 'receiversBankApproval']").val(),
+                "description": $("input[name= 'description']").val(),
+            }
+            }
+            $.ajax(settings).done(function (response) {
+            console.log(response);
+            $("#viewModal #resdata").html(response);
+            $("#viewModal").modal();
+            });
+        }
+
+        function process3(){
+            console.log('inprocess');
+            var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://192.168.0.5:3000/cbt/orderFulfillment",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/x-www-form-urlencoded",
+                "cache-control": "no-cache",
+
+            },
+            "data": {
+                "name": $("input[name= 'requesterName3']").val(),
+                "txnId": $("input[name= 'txnId3']").val(),
+
+                "from":  $("input[name= 'from2']").val(),
+                "to": $("input[name= 'to2']").val(),
+                "amount": $("input[name= 'amount2']").val(),
+               
+                "transactionState": $("input[name= 'transactionState']").val(),
+                "description": $("input[name= 'description2']").val(),
+            }
+            }
+            $.ajax(settings).done(function (response) {
+            console.log(response);
+            $("#viewModal #resdata").html(response);
+            $("#viewModal").modal();
+            });
+        }
+        
+    </script>
 </body>
 
 </html>

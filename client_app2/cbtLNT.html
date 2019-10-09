@@ -39,20 +39,34 @@
     </nav>
     <div style="margin-bottom: 30px;">
         <div class="container">
-            <h1 style="font-size: 19px;color: rgb(84,85,86);">cross border transaction / reciever</h1>
+            <h1 style="font-size: 19px;color: rgb(84,85,86);">worldbank / cross border transaction / reciever</h1>
             <div class="row justify-content-center" style="height: 400px;">
                 <div class="col-4 col-md-4 offset-3 justify-content-center mx-auto" style="padding: 10px;">
                     <div class="border rounded shadow-lg" style="height: 300px;background-color: #ffffff;">
                         <h3 class="text-center" style="margin-top: 0px;background-color: #1678cc;font-size: 20px;color: #eaeaea;padding: 5px;">View Transactions</h3>
-                        <form style="margin: 10px;">
-                            <div class="form-group"><input class="form-control" type="text" placeholder="ener requester name"></div>
-                            <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction id"></div><button class="btn btn-primary" type="submit">view</button></form>
+                        <!-- form -->
+                        <div style="margin: 10px;">
+                            <div class="form-group"><input class="form-control" type="text" placeholder="enter reciever name" name="requesterName"></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction ID" name="txnId"></div><button class="btn btn-primary" type="submit"  onclick="process()">view</button>
+                        </div>
+                        <!-- /form -->
                     </div>
                 </div>
                 <div class="col-4 col-md-4 offset-0 mx-auto" style="padding: 10px;height: 400px;">
                     <div class="shadow-lg" style="background-color: #ffffff;height: 300px;">
                         <h3 class="text-center border rounded" style="background-color: #1678cc;font-size: 20px;color: #eaeaea;margin: 0px;padding: 5px;">Update Transaction Status</h3>
-                        <div style="background-color: #ffffff;height: 260px;"></div>
+                        <div style="background-color: #ffffff;">
+                             <!-- form -->
+                            <div style="margin: 10px;">
+                                <h1 style="font-size: 20px;color: rgb(69,74,79);">Update product delivery details</h1>
+                                <div class="form-group"><input class="form-control" type="text" placeholder="enter reciever name" name="requesterName3"></div>
+                                <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction ID" name="txnId3"></div>
+                                <div class="form-group"><input class="form-control" type="text" placeholder="enter product status" name="productStatus"></div>
+                                <div class="form-group"><input class="form-control" type="text" placeholder="enter description" name="description"></div>
+                                <button class="btn btn-primary" type="submit"  onclick="process3()">view</button>
+                            </div>
+                            <!-- /form -->
+                        </div>
                     </div>
                 </div>
                 <div class="col-3 col-md-4" style="padding: 10px;">
@@ -66,44 +80,50 @@
     </div>
     <section style="background-color: #f1f7ff;">
         <h1 style="font-size: 27px;padding-top: 30px;margin-left: 120px;color: rgb(98,107,116);"><strong>create new transaction request</strong></h1>
-        <form>
+        <!-- form -->
+        <div>
             <div class="form-row text-left d-flex d-lg-flex justify-content-center" style="margin-top: 20px;margin-bottom: 50px;">
                 <div class="clearfix"></div>
                 <div class="col-3">
                     <div class="border rounded shadow-lg" style="margin: 10px;height: 300px;padding: 10px;background-color: #ffffff;">
                         <h1 style="font-size: 20px;color: rgb(69,74,79);">Recievers details</h1>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter receiver name"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter receiver ID"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter receiver address"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter reciever ID" name="requesterId"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter reciever name" name="requesterName2"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter reciever address" name="requesterAddress"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter bank name" name="requesterBankName"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter bank a/c no" name="requesterAccountNo"></div>
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="border rounded shadow-lg" style="height: 300px;background-color: #ffffff;margin: 10px;padding: 10px;">
                         <h1 style="font-size: 20px;color: #454a4f;">Supplier details</h1>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter supplier name"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter supplier address"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter supplier ID"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter supplier ID" name="supplierId"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter supplier name" name="supplierName"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter supplier address" name="supplierAddress"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter bank name" name="supplierBankName"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter bank a/c no" name="supplierAccountNo"></div>
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="border rounded" style="height: auto;background-color: #ffffff;margin: 10px;padding: 10px;">
+                    <div class="border rounded shadow-lg" style="height: auto;background-color: #ffffff;margin: 10px;padding: 10px;">
                         <h1 style="font-size: 20px;color: #454a4f;">Product details</h1>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product ID"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product name"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product quantity"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product price"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product description"></div>
-                    </div><button class="btn btn-outline-primary active text-center" type="button" style="margin: 10px;margin-top: 20px;">&nbsp; create &nbsp;</button></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product ID" name="productId"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product name" name="productName"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product quantity" name="productQuantity"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product price" name="productAmount"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product description" name="description"></div>
+                    </div><button class="btn btn-outline-primary active text-center" type="button" style="margin: 10px;margin-top: 20px;" onclick="process2()">&nbsp; create &nbsp;</button></div>
             </div>
-        </form>
+        </div>
+        <!-- /form -->
     </section>
-    <div class="modal fade" role="dialog" tabindex="-1">
+    <div id="viewModal" class="modal fade" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Account Details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                    <h4 class="modal-title">Transactions Details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
                 <div class="modal-body">
-                    <p>accont details</p>
+                    <pre id="resdata">response details</pre>
                 </div>
                 <div class="modal-footer"><button class="btn btn-primary" type="button">close</button></div>
             </div>
@@ -112,6 +132,98 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/Media-Slider-Bootstrap-3.js"></script>
+
+    <script>
+        function process(){
+    		console.log('inprocess');
+			var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://192.168.0.5:3000/cbt/getCBT",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/x-www-form-urlencoded",
+                "cache-control": "no-cache",
+
+            },
+            "data": {
+                "name": $("input[name= 'requesterName']").val(),
+                "txnId": $("input[name= 'txnId']").val()
+            }
+            }
+            $.ajax(settings).done(function (response) {
+            console.log(response);
+            $("#viewModal #resdata").html(response);
+            $("#viewModal").modal();
+            });
+        }
+    	function process2(){
+    		console.log('inprocess2');
+			var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "http://192.168.0.5:3000/cbt/requestTransaction",
+                "method": "POST",
+                "headers": {
+                    "content-type": "application/x-www-form-urlencoded",
+                    "cache-control": "no-cache",
+
+                },
+                "data": {
+                    "requesterName": $("input[name= 'requesterName2']").val(),
+                    "requesterId": $("input[name= 'requesterId']").val(),
+                    "requesterAddress": $("input[name= 'requesterAddress']").val(),
+                    "requesterBankName": $("input[name= 'requesterBankName']").val(),
+                    "requesterAccountNo": $("input[name= 'requesterAccountNo']").val(),
+
+                    "supplierName": $("input[name= 'supplierName']").val(),
+                    "supplierId": $("input[name= 'supplierId']").val(),
+                    "supplierAddress": $("input[name= 'supplierAddress']").val(),
+                    "supplierBankName": $("input[name= 'supplierBankName']").val(),
+                    "supplierAccountNo": $("input[name= 'supplierAccountNo']").val(),
+                    
+                    "productName": $("input[name= 'productName']").val(),
+                    "productId": $("input[name= 'productId']").val(),
+                    "productQuantity": $("input[name= 'productQuantity']").val(),
+                    "productAmount": $("input[name= 'productAmount']").val(),
+            
+                    "description": $("input[name= 'description']").val()
+                }
+            }
+            
+            $.ajax(settings).done(function (response) {
+            console.log(response);
+            $("#viewModal #resdata").html(response);
+            $("#viewModal").modal();
+            });
+        }
+        function process3(){
+    		console.log('inprocess');
+			var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://192.168.0.5:3000/cbt/updateProductDeliveryStatus",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/x-www-form-urlencoded",
+                "cache-control": "no-cache",
+
+            },
+            "data": {
+                "name": $("input[name= 'requesterName3']").val(),
+                "txnId": $("input[name= 'txnId3']").val(),
+
+                "status": $("input[name= 'productStatus']").val(),
+                "description": $("input[name= 'description']").val()
+            }
+            }
+            $.ajax(settings).done(function (response) {
+            console.log(response);
+            $("#viewModal #resdata").html(response);
+            $("#viewModal").modal();
+            });
+        }
+	</script>
 </body>
 
 </html>

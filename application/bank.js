@@ -16,7 +16,7 @@ router.use(function timeLog (req, res, next) {
 
 router.post('/createAccount', async (req, res, next) => {
   try{
-    let response = await createAccount("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "bacc105", [req.param('bankName'), req.param('accountNo'), req.param('userName'), req.param('initBalance')]);
+    let response = await createAccount("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "bacc105", [req.body.bankName, req.body.accountNo, req.body.userName, req.body.initBalance]);
     console.log(typeof response);
     console.log(response);
     res.send(response);
@@ -28,7 +28,7 @@ router.post('/createAccount', async (req, res, next) => {
 
 router.post('/interBankFundTransfer', async (req, res, next) => {
   try{
-    let response = await interBankFundTransfer("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "bacc105", [req.param('fromBankName'), req.param('fromAccountNo'), req.param('toBankName'), req.param('toAccountNo'), req.param('amount')]);
+    let response = await interBankFundTransfer("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "bacc105", [req.body.fromBankName, req.body.fromAccountNo, req.body.toBankName, req.body.toAccountNo, req.body.amount]);
     console.log(typeof response);
     console.log(response);
     res.send(response);
@@ -39,7 +39,7 @@ router.post('/interBankFundTransfer', async (req, res, next) => {
 
 router.post('/otherBankFundTransfer', async (req, res, next) => {
   try{
-    let response = await otherBankFundTransfer("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "bacc105", [req.param('fromBankName'), req.param('fromAccountNo'), req.param('toBankName'), req.param('toAccountNo'), req.param('amount')]);
+    let response = await otherBankFundTransfer("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "bacc105", [req.body.fromBankName, req.body.fromAccountNo, req.body.toBankName, req.body.toAccountNo, req.body.amount]);
     console.log(typeof response);
     console.log(response);
     res.send(response);
@@ -50,7 +50,7 @@ router.post('/otherBankFundTransfer', async (req, res, next) => {
 
 router.post('/viewAccount', async (req, res, next) => {
   try{
-    let response = await viewAccount("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "bacc105", [req.param('bankName'), req.param('accountNo')]);
+    let response = await viewAccount("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "bacc105", [req.body.bankName, req.body.accountNo]);
     console.log(typeof response);
     console.log(response);
     res.send(response);

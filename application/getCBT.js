@@ -72,6 +72,7 @@ async function getCBT(orgName, userName, secretKey, channelName, contractName, p
 }
 
 module.exports = getCBT;
+
 // request transaction driver Code
 // getCBT("xbank", "User1", "41f362b141152ef2a07ba738d9417c8e346af9656740461073dfdce4c26c816e", "cbtchannel", "cbtcc200", ['shubham', '11570516043067']).then(() => {
 // console.log('requestTransaction program complete.');

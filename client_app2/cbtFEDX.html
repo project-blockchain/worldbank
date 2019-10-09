@@ -39,46 +39,51 @@
     </nav>
     <div>
         <div class="container">
-            <h1 style="font-size: 19px;color: rgb(84,85,86);">cross border transaction / transporter</h1>
+            <h1 style="font-size: 19px;color: rgb(84,85,86);">worldbank / cross border transaction / transporter</h1>
             <div class="row">
                 <div class="col-3 col-md-4 offset-0 justify-content-center mx-auto" style="padding: 0px;">
                     <div class="border rounded shadow-lg" style="margin: 20px;height: 300px;">
                         <h3 class="text-center" style="margin-top: 0px;background-color: #1678cc;font-size: 20px;color: rgb(255,255,255);padding: 5px;">view Transaction</h3>
-                        <form style="margin: 10px;background-color: #ffffff;">
-                            <div class="form-group"><input class="form-control" type="text" placeholder="enter requester name"></div>
-                            <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction id"></div><button class="btn btn-primary" type="submit">view</button></form>
+                        <!-- form -->
+                        <div style="margin: 10px;background-color: #ffffff;">
+                            <div class="form-group"><input class="form-control" type="text" placeholder="enter reciever name" name="requesterName"></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction ID" name="txnId"></div><button class="btn btn-primary" type="submit" onclick="process()">view</button>
+                        </div>
+                        <!-- /form -->
                     </div>
                 </div>
                 <div class="col-3 col-md-4 offset-0" style="padding: 0px;">
-                    <div class="shadow-lg" style="margin: 20px;height: 405px;">
-                        <h3 class="text-center border rounded" style="background-color: #1678cc;font-size: 20px;margin-top: 0px;color: rgb(255,255,255);padding: 5px;">Transactions Log</h3>
+                    <div class="shadow-lg" style="margin: 20px;height: 405px;margin-bottom: 0px;">
+                        <h3 class="text-center border rounded" style="background-color: #1678cc;font-size: 20px;margin: 0px;margin-top: 0px;color: rgb(255,255,255);padding: 5px;">Transactions Log</h3>
                         <div style="height: 360px;background-color: #333333;"></div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="border rounded shadow-lg" style="margin: 20px;">
-                        <form method="post" style="padding: 0px;background-color: #ffffff;margin: 5px;">
+                        <!-- form -->
+                        <div method="post" style="padding: 0px;background-color: #ffffff;margin: 5px;">
                             <h2 class="text-center" style="font-size: 20px;padding: 10px;color: #fe0707;">Update Location</h2>
-                            <div class="form-group"><input class="form-control" type="text" name="reqName" placeholder="requerter name"></div>
-                            <div class="form-group"><input class="form-control" type="text" name="txnId" placeholder="transaction id"></div>
+                            <div class="form-group"><input class="form-control" type="text" name="requesterName2" placeholder="enter reciever name"></div>
+                            <div class="form-group"><input class="form-control" type="text" name="txnId2" placeholder="enter transaction ID"></div>
                             <div class="form-group"><input class="form-control" type="text" name="from" placeholder="From"></div>
                             <div class="form-group"><input class="form-control" type="text" name="to" placeholder="To"></div>
-                            <div class="form-group"><input class="form-control" type="text" name="to" placeholder="new location"></div>
-                            <div class="form-group"><input class="form-control" type="text" name="to" placeholder="product State"></div>
-                            <div class="form-group"><button class="btn btn-primary" type="submit">update</button></div>
-                        </form>
+                            <div class="form-group"><input class="form-control" type="text" name="newLocation" placeholder="new location"></div>
+                            <div class="form-group"><input class="form-control" type="text" name="productState" placeholder="product State"></div>
+                            <div class="form-group"><button class="btn btn-primary" type="submit" onclick="process2()">update</button></div>
+                        </div>
+                        <!-- /form -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1">
+    <div id="viewModal" class="modal fade" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Account Details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                    <h4 class="modal-title">Transaction Details</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
                 <div class="modal-body">
-                    <p>accont details</p>
+                    <pre id="resdata">Transaction details</pre>
                 </div>
                 <div class="modal-footer"><button class="btn btn-primary" type="button">close</button></div>
             </div>
@@ -87,6 +92,60 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/Media-Slider-Bootstrap-3.js"></script>
+
+    <script>
+        function process(){
+            console.log('inprocess');
+            var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://192.168.0.5:3000/cbt/getCBT",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/x-www-form-urlencoded",
+                "cache-control": "no-cache",
+
+            },
+            "data": {
+                "name": $("input[name= 'requesterName']").val(),
+                "txnId": $("input[name= 'txnId']").val()
+            }
+            }
+            $.ajax(settings).done(function (response) {
+            console.log(response);
+            $("#viewModal #resdata").html(response);
+            $("#viewModal").modal();
+            });
+        }
+        function process2(){
+            console.log('inprocess');
+            var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://192.168.0.5:3000/cbt/productTransfer",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/x-www-form-urlencoded",
+                "cache-control": "no-cache",
+
+            },
+            "data": {
+                "name": $("input[name= 'requesterName2']").val(),
+                "txnId": $("input[name= 'txnId2']").val(),
+                
+                "from":  $("input[name= 'from']").val(),
+                "to": $("input[name= 'to']").val(),
+                "newLocation": $("input[name= 'newLocation']").val(),
+                "state": $("input[name= 'productState']").val()
+            }
+            }
+            $.ajax(settings).done(function (response) {
+            console.log(response);
+            $("#viewModal #resdata").html(response);
+            $("#viewModal").modal();
+            });
+        }
+    </script>
 </body>
 
 </html>

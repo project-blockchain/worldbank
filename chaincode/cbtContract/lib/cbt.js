@@ -12,6 +12,7 @@ const State = require('./../ledger-api/state.js');
 const cbtState = {
     REQUESTED: 1,
     INPROCESS: 2,
+    PENDING: 3,
     SUCCESSFUL: 4,
     FAILED: 5
 };

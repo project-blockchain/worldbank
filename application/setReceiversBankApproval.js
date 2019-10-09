@@ -80,6 +80,8 @@ async function setReceiversBankApproval(orgName, userName, secretKey, channelNam
     }
 }
 
+module.exports = setReceiversBankApproval;
+
 // driver Code
 // let name = "rohit";
 // let txnId = "112345";

@@ -84,6 +84,8 @@ async function setProductSupplierApproval(orgName, userName, secretKey, channelN
     }
 }
 
+module.exports = setProductSupplierApproval;
+
 // driver Code
 // let name = "rohit";
 // let txnId = "112345";

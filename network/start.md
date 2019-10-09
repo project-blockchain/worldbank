@@ -58,7 +58,7 @@ peer lifecycle chaincode package mycc.tar.gz --path /opt/gopath/src/github.com/h
 <!-- for CBT -->
 peer chaincode install -n cbtcc200 -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/cbtContract/
 <!-- for bank system -->
-peer chaincode install -n bacc105 -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/bankAccountContract
+peer chaincode install -n bacc200 -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/bankAccountContract
 
 ### export channel name
 export CHANNEL_NAME=<CHANNEL_NAME>
@@ -72,7 +72,7 @@ peer chaincode instantiate -o orderer.worldbank.com:7050 --tls --cafile /opt/gop
 <!-- for CBT -->
 peer chaincode instantiate -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n cbtcc200 -v 1.0 -c '{"Args": ["org.worldbank.cbt:instantiate"]}'
 <!-- for bank system -->
-peer chaincode instantiate -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n bacc105 -v 1.0 -c '{"Args": ["org.worldbank.bankaccount:instantiate"]}'
+peer chaincode instantiate -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n bacc200 -v 1.0 -c '{"Args": ["org.worldbank.bankaccount:instantiate"]}'
 
 ### query chaincode
 peer chaincode query -C $CHANNEL_NAME -n <chaincode_name> -c '{"Args":["query","a"]}'
@@ -84,4 +84,4 @@ peer chaincode invoke -o orderer.worldbank.com:7050 --tls true --cafile /opt/gop
 <!-- for CBT -->
 peer chaincode invoke -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n cbtcc200 -c '{"Args": }'
 <!-- for bank -->
-peer chaincode invoke -o orderer.worldbank.com:7050  -C $CHANNEL_NAME -n bacc105 -c '{"Args": }'
+peer chaincode invoke -o orderer.worldbank.com:7050  -C $CHANNEL_NAME -n bacc200 -c '{"Args": }'

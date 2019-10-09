@@ -76,6 +76,8 @@ async function productTransfer(orgName, userName, secretKey, channelName, contra
     }
 }
 
+module.exports = productTransfer;
+
 // driver Code
 // let name = "rohit";
 // let txnId = "112345";

@@ -80,6 +80,8 @@ async function orderFulfillment(orgName, userName, secretKey, channelName, contr
     }
 }
 
+module.exports = orderFulfillment;
+
 // other bank fund transfer driver Code
 // let name = "rohit";
 // let txnId = "112345";

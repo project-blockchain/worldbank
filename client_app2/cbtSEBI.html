@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>CBT L&T</title>
+    <title>CBT SEBI</title>
     <link rel="icon" type="image/jpeg" sizes="123x123" href="assets/img/bnk.jpeg">
     <link rel="icon" type="image/jpeg" sizes="123x123" href="assets/img/bnk.jpeg">
     <link rel="icon" type="image/jpeg" sizes="123x123" href="assets/img/bnk.jpeg">
@@ -47,6 +47,8 @@
                         <!-- form -->
                         <div style="padding: 10px;">
                             <input class="form-control" type="text"
+                            placeholder="Bank Name" name="bankName" style="margin: 5px;">
+                            <input class="form-control" type="text"
                             placeholder="Account Number" name="accountNo2" style="margin: 5px;">
                             <button class="btn btn-primary" type="button" style="margin-top: 20px;" onclick="process2()">View</button>
                         </div>
@@ -66,10 +68,10 @@
                     </div>
                 </div>
                 <div class="col-3 col-md-4" style="padding: 10px;">
-                    <div class="shadow-lg" style="height: 400px;background-color: #ffffff;margin: 0px;">
+                    <!-- <div class="shadow-lg" style="height: 400px;background-color: #ffffff;margin: 0px;">
                         <h3 class="text-center border rounded" style="background-color: #1678cc;font-size: 20px;color: #eaeaea;margin: 0px;padding: 5px;">Transaction Log</h3>
                         <div style="height: 360px;background-color: #333333;"></div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -129,7 +131,7 @@
         
                 },
                 "data": {
-                    "bankName": "xbank",
+                    "bankName": $("input[name= 'bankName']").val(),
                     "accountNo": $("input[name= 'accountNo2']").val()
                 }
             }

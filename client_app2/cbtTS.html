@@ -35,7 +35,7 @@
                 <ul class="nav navbar-nav mr-auto">
                     <li class="nav-item" role="presentation"></li>
                 </ul>
-            </div><button class="btn btn-success btn-sm" type="button"><i class="fa fa-user-circle-o"></i>&nbsp; user1@lnt</button><button class="btn btn-dark btn-sm" type="button" style="margin-left: 5px;">logout &nbsp;<i class="fa fa-arrow-circle-o-right"></i></button></div>
+            </div><button class="btn btn-success btn-sm" type="button"><i class="fa fa-user-circle-o"></i>&nbsp; user1@tatasteel</button><button class="btn btn-dark btn-sm" type="button" style="margin-left: 5px;">logout &nbsp;<i class="fa fa-arrow-circle-o-right"></i></button></div>
     </nav>
     <div>
         <div class="container">
@@ -46,16 +46,26 @@
                         <h3 class="text-center" style="margin-top: 0px;background-color: #1678cc;font-size: 20px;color: #eaeaea;padding: 5px;">View Transactions</h3>
                         <!-- form -->
                         <div style="margin: 10px;">
-                            <div class="form-group"><input class="form-control" type="text" placeholder="enter reciever name" name="requesterName"></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="enter receiver name" name="requesterName"></div>
                             <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction ID" name="txnId"></div><button class="btn btn-primary" type="submit" onclick="process()">view</button>
                         </div>
                         <!-- form -->
                     </div>
                 </div>
                 <div class="col-4 col-md-4 offset-0 mx-auto" style="padding: 10px;height: 400px;">
-                    <div class="shadow-lg" style="background-color: #ffffff;height: 300px;">
+                    <div class="shadow-lg" style="background-color: #ffffff;">
                         <h3 class="text-center border rounded" style="background-color: #1678cc;font-size: 20px;color: #eaeaea;margin: 0px;padding: 5px;">Update Transaction Status</h3>
-                        <div style="background-color: #ffffff;height: 260px;"></div>
+                        <!-- form -->
+                        <div method="post" style="padding: 0px;background-color: #ffffff;margin: 5px;">
+                            <div class="form-group"><input class="form-control" type="text" name="requesterName2" placeholder="enter receiver name"></div>
+                            <div class="form-group"><input class="form-control" type="text" name="txnId2" placeholder="enter transaction ID"></div>
+                            <div class="form-group"><input class="form-control" type="text" name="from" placeholder="From"></div>
+                            <div class="form-group"><input class="form-control" type="text" name="to" placeholder="To"></div>
+                            <div class="form-group"><input class="form-control" type="text" name="newLocation" placeholder="new location"></div>
+                            <div class="form-group"><input class="form-control" type="text" name="productState" placeholder="product State"></div>
+                            <div class="form-group"><button class="btn btn-primary" type="submit" onclick="process2()">update</button></div>
+                        </div>
+                        <!-- /form -->
                     </div>
                 </div>
                 <div class="col-3 col-md-4" style="padding: 10px;">
@@ -75,8 +85,8 @@
                 <div class="col-3">
                     <div class="border rounded shadow-lg" style="margin: 10px;height: auto;padding: 10px;background-color: #ffffff;">
                         <h1 style="font-size: 20px;color: rgb(69,74,79);margin-top: 20px;">Transaction details</h1>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter reciever name" name="requesterName2"></div>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction ID" name="txnId2"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter receiver name" name="requesterName3"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction ID" name="txnId3"></div>
                         <h1 style="font-size: 20px;color: rgb(69,74,79);margin-top: 20px;">Supplier Updates</h1>
                         <div class="form-group"><input class="form-control" type="text" placeholder="enter supplier approval" name="supplierApproval"></div>
                         <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction status" name="transactionState"></div>
@@ -95,10 +105,10 @@
                 <div class="col-3">
                     <div class="border rounded" style="height: auto;background-color: #ffffff;margin: 10px;padding: 10px;">
                         <h1 style="font-size: 20px;color: #454a4f;">Product status</h1>
-                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product status" name="productState"></div>
+                        <div class="form-group"><input class="form-control" type="text" placeholder="enter product status" name="productState2"></div>
                         <div class="form-group"><input class="form-control" type="text" placeholder="enter product holder name" name="productHolder"></div>
                         <div class="form-group"><input class="form-control" type="text" placeholder="enter product location" name="productLocation"></div>
-                    </div><button class="btn btn-outline-primary active text-center" type="button" style="margin: 10px;margin-top: 20px;" onclick="process2()">&nbsp; update &nbsp;</button></div>
+                    </div><button class="btn btn-outline-primary active text-center" type="button" style="margin: 10px;margin-top: 20px;" onclick="process3()">&nbsp; update &nbsp;</button></div>
             </div>
         </form>
     </section>
@@ -125,7 +135,7 @@
             var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "http://172.16.1.230:3000/cbt/getCBT",
+            "url": "http://192.168.0.5:3000/cbt/getCBT",
             "method": "POST",
             "headers": {
                 "content-type": "application/x-www-form-urlencoded",
@@ -143,12 +153,13 @@
             $("#viewModal").modal();
             });
         }
+
         function process2(){
-            console.log('inprocess');
+            console.log('inprocess2');
             var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "http://172.16.1.230:3000/cbt/setProductSupplierApproval",
+            "url": "http://192.168.0.5:3000/cbt/productTransfer",
             "method": "POST",
             "headers": {
                 "content-type": "application/x-www-form-urlencoded",
@@ -158,6 +169,35 @@
             "data": {
                 "name": $("input[name= 'requesterName2']").val(),
                 "txnId": $("input[name= 'txnId2']").val(),
+                
+                "from":  $("input[name= 'from']").val(),
+                "to": $("input[name= 'to']").val(),
+                "newLocation": $("input[name= 'newLocation']").val(),
+                "state": $("input[name= 'productState']").val()
+            }
+            }
+            $.ajax(settings).done(function (response) {
+            console.log(response);
+            $("#viewModal #resdata").html(response);
+            $("#viewModal").modal();
+            });
+        }
+
+        function process3(){
+            console.log('inprocess');
+            var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://192.168.0.5:3000/cbt/setProductSupplierApproval",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/x-www-form-urlencoded",
+                "cache-control": "no-cache",
+
+            },
+            "data": {
+                "name": $("input[name= 'requesterName3']").val(),
+                "txnId": $("input[name= 'txnId3']").val(),
 
                 "supplierApproval":  $("input[name= 'supplierApproval']").val(),
 
@@ -167,7 +207,7 @@
                 "transporterCharges": $("input[name= 'transporterCharges']").val(),
             
 
-                "productState": $("input[name= 'productState']").val(),
+                "productState": $("input[name= 'productState2']").val(),
                 "productHolder": $("input[name= 'productHolder']").val(),
                 "productLocation": $("input[name= 'productLocation']").val(),
 

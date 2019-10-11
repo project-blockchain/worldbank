@@ -175,8 +175,9 @@ class CbtContract extends Contract{
 
         // 4. bank will decide this option after amount transaction from client bank account to bank's pool account
         cbtObj.setReceiversBankApproval(receiversBankApproval);
+        cbtObj.setTransactionDescription(description);
+        
         if(receiversBankApproval == "false") {
-            cbtObj.setTransactionDescription(description);
              // update transaction object into world state
             await ctx.cbtList.updateTransaction(cbtObj);
             return cbtObj;

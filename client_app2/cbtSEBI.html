@@ -61,7 +61,7 @@
                         <h3 class="text-center" style="margin-top: 0px;background-color: #1678cc;font-size: 20px;color: #eaeaea;padding: 5px;">View Transaction</h3>
                         <!-- form -->
                         <div style="margin: 10px;">
-                            <div class="form-group"><input class="form-control" type="text" placeholder="enter reciever name" name="requesterName"></div>
+                            <div class="form-group"><input class="form-control" type="text" placeholder="enter receiver name" name="requesterName"></div>
                             <div class="form-group"><input class="form-control" type="text" placeholder="enter transaction ID" name="txnId"></div><button class="btn btn-primary" type="submit" onclick="process()">view</button>
                         </div>
                         <!-- /form -->
@@ -99,7 +99,7 @@
             var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "http://172.16.1.230:3000/cbt/getCBT",
+            "url": "http://192.168.0.5:3000/cbt/getCBT",
             "method": "POST",
             "headers": {
                 "content-type": "application/x-www-form-urlencoded",
@@ -123,7 +123,7 @@
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "http://172.16.1.230:3000/bank/viewAccount",
+                "url": "http://192.168.0.5:3000/bank/viewAccount",
                 "method": "POST",
                 "headers": {
                     "content-type": "application/x-www-form-urlencoded",

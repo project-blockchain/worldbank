@@ -19,16 +19,18 @@
     "license": "Apache-2.0",
     "dependencies": {
         "fabric-contract-api": "^1.4.2",
-        "fabric-shim": "~1.4.0"
+        "fabric-shim": "~1.4.2",
+        "mem": "^5.1.1",
+        "os-locale": "^4.0.0"
     },
     "devDependencies": {
-        "chai": "^4.1.2",
+        "chai": "^4.2.0",
         "chai-as-promised": "^7.1.1",
-        "eslint": "^4.19.1",
-        "mocha": "^5.2.0",
-        "nyc": "^12.0.2",
-        "sinon": "^6.0.0",
-        "sinon-chai": "^3.2.0"
+        "eslint": "^6.5.1",
+        "mocha": "^6.2.1",
+        "nyc": "^14.1.1",
+        "sinon": "^7.5.0",
+        "sinon-chai": "^3.3.0"
     },
     "nyc": {
         "exclude": [

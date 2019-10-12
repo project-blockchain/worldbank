@@ -1,4 +1,4 @@
 ### this directory contains server side Node.js application programs + Express Js code files.
-it covers server side module of following module of following figure.
+this directory covers implementation of server side node.js module of following figure.
 
-![](images/integration.jpg)
+![end to end integration](images/integration.jpg)

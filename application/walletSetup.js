@@ -13,7 +13,6 @@ const fixtures = path.resolve(__dirname, '../network');
 // A wallet stores a collection of identities
 class WalletSetup{
     static walletSetup(orgName, userName, secretKey) {
-    
         // Main try/catch block
         try {
             const wallet = new FileSystemWallet('./identity/'+orgName+'/'+userName+'/'+'wallet');

@@ -1,2 +1,2 @@
 # worldbank
-worldbank - hyperledger fabric project
+hyperledger fabric blockchain project for lockchain based banking system

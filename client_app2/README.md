@@ -7,4 +7,4 @@ implemented with
 | ----- | ----- | ------------- | ----------
 
 this dir. covers client side implementation of UI & UX module from following image
-![](images/integration.jpg)
+![](../images/integration.jpg)

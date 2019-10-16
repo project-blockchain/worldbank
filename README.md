@@ -7,7 +7,7 @@ hyperledger fabric blockchain project for blockchain based banking system
 ### project document
 <pdf link wil be here>
  
- ### stepss to start network
+ ### steps to start network
  1. navigate to metwork directory   
  ``` cd network```
  
@@ -17,28 +17,27 @@ hyperledger fabric blockchain project for blockchain based banking system
 
 ### steps to install & invoke chaincode
 
+3. define CHANNEL_NAME
+```export CHANNEL_NAME=<CHANNEL_NAME>```
 
-### define CHANNEL_NAME
-export CHANNEL_NAME=<CHANNEL_NAME>
-
-### create channel 
+4. create channel   
 <!-- with TLS -->
 ```peer channel create -o orderer.worldbank.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem```
 <!-- without TLS -->
 ```peer channel create -o orderer.worldbank.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx```
 
-### join channel
+5. join channel   
 ```peer channel join -b <CHANNEL_NAME>.block```
 
 
-### Update the channel definition to define the anchor peer for Organizations in network
+6. Update the channel definition to define the anchor peer for Organizations in network   
 <!-- with TLS -->
 ```peer channel update -o orderer.worldbank.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/Org1MSPanchors.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem```
 <!-- without TLS -->
 ```peer channel update -o orderer.worldbank.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/Org1MSPanchors.tx```
 
 
-###  package the chaincode before installing (for node js chaincode)
+7. package the chaincode before installing (for node js chaincode)   
 <!-- 1. for lifecycle V2 alpha -->
 ```peer lifecycle chaincode package mycc.tar.gz --path /opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode/abstore/node/ --lang node --label mycc_1```
 <!-- 2. for V1.4 -->
@@ -47,10 +46,10 @@ export CHANNEL_NAME=<CHANNEL_NAME>
 <!-- for bank system -->
 ```peer chaincode install -n bacc300 -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/bankAccountContract```
 
-### export channel name
+8. export channel name   
 ```export CHANNEL_NAME=<CHANNEL_NAME>```
 
-### instantiate chaincode 
+9. instantiate chaincode    
 <!-- with TLS and Policies-->
 ```peer chaincode instantiate -o orderer.worldbank.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n cbtcc -v 1.0 -c '{"Args": }' -P "OR ('xbankMSP.peer','hdfcMSP.peer')"```
 <!-- with TLS and wihtout Policies -->
@@ -61,10 +60,10 @@ export CHANNEL_NAME=<CHANNEL_NAME>
 <!-- for bank system -->
 ```peer chaincode instantiate -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n bacc300 -v 1.0 -c '{"Args": ["org.worldbank.bankaccount:instantiate"]}'```
 
-### query chaincode
+10. query chaincode   
 ```peer chaincode query -C $CHANNEL_NAME -n <chaincode_name> -c '{"Args":["query","a"]}'```
 
-### invoke chaincode
+11. invoke chaincode   
 <!-- with TLS -->
 ```peer chaincode invoke -o orderer.worldbank.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/worldbank.com/orderers/orderer.worldbank.com/msp/tlscacerts/tlsca.worldbank.com-cert.pem -C $CHANNEL_NAME -n cbtcc14 -c '{"Args": }'```
 <!-- without TLS -->

@@ -1,4 +1,6 @@
-# worldbank
+# worldBank
+blockchain based banking system   
+
 We took one scenario to simulate cross border transaction, where L&T located in Atlanta, US wants to request for a stock of steel products to Tata Steel located in Kolkata, India. As this deal involves so many asset transfer (money and product) and their provenance between the countries, they need to rely on banks to handle all the financial and legal transactions. In this solution, we tried to create a blockchain based system to handle such tran sactions and records for the same in a common distributed ledger.
 
 

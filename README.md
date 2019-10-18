@@ -1,11 +1,14 @@
 # worldbank
 hyperledger fabric blockchain project for blockchain based banking system
 
+| document | 
+| -------- | ---------- | 
+
+| video | https://www.youtube.com/watch?v=rWWAaTIxSYo |
+| ----- | ------------------------------------------- |
+
 <explanation about project will be here>
-  
-  
-### project document
-<pdf link wil be here>
+ 
  
  ### steps to start network
  1. navigate to metwork directory   

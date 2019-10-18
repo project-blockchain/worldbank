@@ -20,7 +20,7 @@ We took one scenario to simulate cross border transaction, where L&T located in 
 
 ### steps to install & invoke chaincode
 
-3. define CHANNEL_NAME
+3. define CHANNEL_NAME   
 ```export CHANNEL_NAME=<CHANNEL_NAME>```
 
 4. create channel   

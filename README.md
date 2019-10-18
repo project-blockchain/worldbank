@@ -110,3 +110,21 @@ peer chaincode invoke -o orderer.worldbank.com:7050 -C $CHANNEL_NAME -n cbtcc300
 ```
 peer chaincode invoke -o orderer.worldbank.com:7050  -C $CHANNEL_NAME -n bacc200 -c '{"Args": }'
 ```
+
+### start REST API service
+1. go to application directory
+```
+cd application
+```
+
+2. start express JS service
+```
+node app.js
+```
+It will provide REST service to client App through port 3000
+
+### use web application
+Open the web pages located into client_app2 directory
+
+Through this web pages you can interact with deployed blockchain system!
+

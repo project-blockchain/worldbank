@@ -13,7 +13,7 @@ We took one scenario to simulate cross border transaction, where L&T located in 
  
  
  ### steps to start network
- 1. navigate to metwork directory   
+ 1. navigate to network directory   
  ``` cd network```
  
  2. up the network   
